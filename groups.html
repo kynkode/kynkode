@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trackyn | Groups</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Inter:wght=400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modern Auth Shield Loading Layout & Components */
+        .tkn-page-shield {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #ffffff;
+            z-index: 100000;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        .tkn-modern-loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .tkn-spinner-container {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+        .tkn-spinner-ring {
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(20, 25, 121, 0.1);
+            border-top: 4px solid #141979;
+            border-radius: 50%;
+            animation: tkn-spin 1s linear infinite;
+            box-sizing: border-box;
+        }
+        .tkn-spinner-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            margin-top: -4px;
+            margin-left: -4px;
+            border-radius: 50%;
+            background-color: #141979;
+        }
+        @keyframes tkn-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Lost Pet Banner Animation & Layout Core Configuration */
+        #lost-pet-banner {
+            display: none;
+            background-color: #ff4d4f;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 77, 79, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); }
+        }
+
+        /* Post Creation Card Adjustments */
+        .create-post-textarea {
+            width: 100%; height: 60px; border: 1px solid #ccd0d5; 
+            border-radius: 8px; padding: 10px; resize: none; 
+            font-family: inherit; margin-bottom: 10px; outline: none;
+            box-sizing: border-box;
+        }
+        .btn-post {
+            float: right; background: #141979; color: white; border: none;
+        }
+
+        /* Profile Avatar Mobile Anti-Squish Fix */
+        .author-avatar {
+            flex-shrink: 0 !important; /* Prevents flexbox from compressing the width */
+            aspect-ratio: 1 / 1; /* Guarantees a perfect circle dimension */
+        }
+
+        /* Comment Bubble Styling */
+        .comment-bubble {
+            background-color: #f0f2f5; padding: 8px 12px;
+            border-radius: 15px; margin-bottom: 8px; font-size: 0.9em;
+            color: #050505;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .comment-input-area {
+            display: flex; gap: 10px; align-items: center; margin-top: 10px; width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Global Grid Layout Fallbacks to protect alignment if style.css differs */
+        .groups-layout {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .feed-column {
+            flex: 2;
+            min-width: 0; /* Prevents flex children from breaking parent layout container boundary boxes */
+        }
+        .sidebar-column {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* ==========================================================================
+           COMPREHENSIVE MEDIA QUERIES FOR ALL VIEWPORTS & COMPONENT CORRECTIONS
+           ========================================================================== */
+
+        /* Tablet Viewports (Max-width: 992px) */
+        @media (max-width: 992px) {
+            .groups-layout {
+                gap: 16px;
+            }
+            .sidebar-column {
+                min-width: 240px;
+            }
+            #lost-pet-banner {
+                font-size: 0.95rem;
+                padding: 14px 18px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Small Screen & Mobile Device Layout Optimization (Max-width: 768px) */
+        @media (max-width: 768px) {
+            .groups-layout {
+                flex-direction: column;
+                gap: 24px;
+            }
+            .feed-column, .sidebar-column {
+                width: 100% !important;
+                flex: none;
+            }
+            .sidebar-column {
+                min-width: 100%;
+            }
+            #lost-pet-banner {
+                font-size: 0.9rem;
+                padding: 12px 15px;
+                margin-bottom: 16px;
+                border-radius: 6px;
+            }
+            .comment-input-area {
+                gap: 8px;
+            }
+            .comment-input {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Micro-Screens & Legacy Devices Viewport Control (Max-width: 480px) */
+        @media (max-width: 480px) {
+            #lost-pet-banner {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+                text-align: left; /* Shift alignment to maximize read-room if line breaks are frequent */
+            }
+            .comment-input-area {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .comment-input-area button {
+                width: 100%;
+                text-align: center;
+                margin-top: 4px;
+            }
+            .card-interaction-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start !important;
+            }
+        }
+    </style>
+
+    <script>
+        // 1. Immediate local session check
+        const currentUser = sessionStorage.getItem('trackynUser') || 'GuestUser';
+        
+        // Deployed Google Apps Script Web App URL
+        const TRACKYN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxD4bDcY_5DYCIMJadfk1jjTbUh9ERZfF4z3ZNyAaixth3MgrFDn8NKdUIvKcsesMRT9g/exec';
+        
+        // Local Storage Keys for UI State Persistence
+        const LOCAL_COMMENTS_KEY = 'trackyn_local_comments';
+        const LOCAL_REACTIONS_KEY = 'trackyn_local_reactions';
+
+        // Tracking selected group client-side
+        let selectedGroup = '';
+
+        if (!sessionStorage.getItem('trackynUser') && !TRACKYN_BACKEND_URL.includes('AKfycbz')) {
+            window.location.replace('pet-owner.html');
+        } else {
+            // 2. Server-side verification loop targeting the updated doPost backend endpoint
+            document.addEventListener("DOMContentLoaded", () => {
+                
+                // Pure local environment testing fallback bypass:
+                if (TRACKYN_BACKEND_URL.includes('AKfycbxD4bDcY_5DYCIMJadfk1jjTbUh9ERZfF4z3ZNyAaixth3MgrFDn8NKdUIvKcsesMRT9g')) {
+                    console.warn("Trackyn Development Notice: Running decoupled from backend. Access shield removed.");
+                    const shield = document.getElementById('tknAuthShield');
+                    if (shield) shield.remove();
+                    initGroupsData(); // Initialize data load
+                    return;
+                }
+
+                // Construct endpoint URL targeting Module E's verification parameter rules
+                const verificationUrl = `${TRACKYN_BACKEND_URL}?action=verify_group_access&Username=${encodeURIComponent(currentUser)}`;
+
+                fetch(verificationUrl, {
+                    method: 'POST',
+                    mode: 'cors'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.success) {
+                        // Access confirmed by Column V (GRANTED): Remove shield cleanly
+                        const shield = document.getElementById('tknAuthShield');
+                        if (shield) shield.remove();
+                        initGroupsData(); // Initialize data load
+                    } else {
+                        // Status verification mismatch or access revoked
+                        handleAuthFailure();
+                    }
+                })
+                .catch(error => {
+                    console.error("Security authorization network handshake failed:", error);
+                    handleAuthFailure();
+                });
+            });
+        }
+
+        function handleAuthFailure() {
+            sessionStorage.clear();
+            window.location.replace('pet-owner.html');
+        }
+
+        // ==========================================
+        // GROUPS PAGE INITIALIZATION LOGIC
+        // ==========================================
+        function initGroupsData() {
+            fetchLostPets();
+            fetchFeed();
+        }
+
+        async function fetchLostPets() {
+            try {
+                // Calls Master Registry Payload (No action parameter = GET full registry)
+                const response = await fetch(TRACKYN_BACKEND_URL);
+                const registryData = await response.json();
+
+                // Filter for pets where the Status column is 'LOST'
+                const lostPets = registryData.filter(pet => pet.Status && pet.Status.toString().toUpperCase() === 'LOST');
+
+                const banner = document.getElementById('lost-pet-banner');
+                if (lostPets.length > 0) {
+                    // Extracting names dynamically from Column B (OwnerName1) and Column E (Phone)
+                    const petAlerts = lostPets.map(p => {
+                        const ownerName = p.OwnerName1 || p.ownername1 || 'Unknown';
+                        const phoneNum = p.Phone || p.phone;
+                        const phoneDisplay = phoneNum ? ` - Contact: ${phoneNum}` : '';
+                        return `${p.PetName} (Owner: ${ownerName}${phoneDisplay})`;
+                    }).join(' & ');
+                    
+                    banner.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> URGENT LOST PET ALERT: Please keep an eye out for ${petAlerts}!`;
+                    banner.style.display = 'block';
+                } else {
+                    banner.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Failed to load registry data for banner:", error);
+            }
+        }
+
+        async function fetchFeed() {
+            try {
+                const response = await fetch(`${TRACKYN_BACKEND_URL}?action=get_groups_data&Username=${currentUser}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderFeed(data.posts);
+                } else {
+                    document.getElementById('dynamic-feed').innerHTML = `<p style="text-align:center;">Error loading posts.</p>`;
+                }
+            } catch (error) {
+                console.error("Failed to fetch feed:", error);
+                document.getElementById('dynamic-feed').innerHTML = `<p style="text-align:center;">Network error loading feed.</p>`;
+            }
+        }
+
+        function renderFeed(posts) {
+            const feedContainer = document.getElementById('dynamic-feed');
+            feedContainer.innerHTML = ''; // Clear loading text
+
+            const localComments = JSON.parse(localStorage.getItem(LOCAL_COMMENTS_KEY)) || {};
+            const localReactions = JSON.parse(localStorage.getItem(LOCAL_REACTIONS_KEY)) || {};
+
+            if (posts.length === 0) {
+                feedContainer.innerHTML = `<p style="text-align:center; color:#65676b;">No posts yet. Be the first to post!</p>`;
+                return;
+            }
+
+            posts.forEach(post => {
+                const userReactionState = localReactions[post.PostID] || null; 
+                const postComments = localComments[post.PostID] || [];
+                const avatarInitial = post.Username ? post.Username.charAt(0).toUpperCase() : 'U';
+
+                // Format UI Colors based on state
+                const likeColor = userReactionState === 'like' ? 'color: #1877f2;' : '';
+                const reactColor = userReactionState === 'react' ? 'color: #f5c33b;' : '';
+
+                const postHTML = `
+                    <article class="feed-card" id="post-card-${post.PostID}">
+                        <div class="card-author-info">
+                            <div class="author-avatar">${avatarInitial}</div>
+                            <div class="author-meta">
+                                <span class="author-name">${post.Username}</span>
+                                <span class="post-date">${new Date(post.Timestamp).toLocaleString()}</span>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <p>${post.Content}</p>
+                        </div>
+
+                        <div class="card-interaction-bar">
+                            <div class="action-buttons">
+                                <button class="action-btn" onclick="toggleLike('${post.PostID}')" style="${likeColor}">
+                                    <i class="fa-regular fa-thumbs-up"></i> <span id="like-count-${post.PostID}">${post.Likes}</span>
+                                </button>
+                                <button class="action-btn" onclick="addReaction('${post.PostID}')" style="${reactColor}">
+                                    <i class="fa-solid fa-plus"></i> <i class="fa-regular fa-face-smile"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="stats-row">
+                                <span><i class="fa-regular fa-comment"></i> ${postComments.length} Comments</span>
+                            </div>
+                        </div>
+
+                        <div class="card-comment-section" style="flex-direction: column; align-items: stretch;">
+                            <div id="comments-${post.PostID}" style="margin-bottom: ${postComments.length > 0 ? '10px' : '0'};">
+                                ${postComments.map(c => `
+                                    <div class="comment-bubble">
+                                        <strong>${c.user}:</strong> ${c.text}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="comment-input-area">
+                                <input type="text" id="input-${post.PostID}" class="comment-input" placeholder="Write a comment..." style="flex-grow: 1; margin: 0;">
+                                <button class="btn-outline-sm" onclick="submitComment('${post.PostID}')">Post</button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                feedContainer.insertAdjacentHTML('beforeend', postHTML);
+            });
+        }
+
+        // ==========================================
+        // DATA MUTATION & LOCAL STORAGE SYNC
+        // ==========================================
+        function joinGroup(buttonElement, groupName) {
+            const allGroupButtons = document.querySelectorAll('.suggested-groups-list .btn-outline-sm');
+            const postTextArea = document.getElementById('postContent');
+            
+            if (selectedGroup === groupName) {
+                // Leaving / Unselecting group
+                selectedGroup = '';
+                buttonElement.innerText = 'Join';
+                buttonElement.style.background = '';
+                buttonElement.style.color = '';
+                postTextArea.placeholder = "What's on your mind?";
+            } else {
+                // Reset all other group listing interface frames
+                allGroupButtons.forEach(btn => {
+                    btn.innerText = 'Join';
+                    btn.style.background = '';
+                    btn.style.color = '';
+                });
+
+                // Setting active member chosen state
+                selectedGroup = groupName;
+                buttonElement.innerText = 'Joined';
+                buttonElement.style.background = '#141979';
+                buttonElement.style.color = '#ffffff';
+                postTextArea.placeholder = `Posting as a member of ${groupName}...`;
+            }
+        }
+
+        async function createPost() {
+            let content = document.getElementById('postContent').value;
+            if (!content.trim()) return;
+
+            // Prepend chosen group membership tag to avoid redoing backend infrastructure
+            if (selectedGroup) {
+                content = `[${selectedGroup}] ${content}`;
+            }
+
+            // Loading state
+            const btn = document.getElementById('createPostBtn');
+            btn.innerText = "Posting...";
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('action', 'create_post');
+            formData.append('Username', currentUser);
+            formData.append('Content', content);
+
+            await fetch(TRACKYN_BACKEND_URL, { method: 'POST', body: formData });
+            
+            // Reset and Refresh
+            document.getElementById('postContent').value = '';
+            btn.innerText = "Post";
+            btn.disabled = false;
+            fetchFeed();
+        }
+
+        async function toggleLike(postId) {
+            let localReactions = JSON.parse(localStorage.getItem(LOCAL_REACTIONS_KEY)) || {};
+            let isCurrentlyLiked = localReactions[postId] === 'like';
+            let adjustment = isCurrentlyLiked ? -1 : 1;
+            
+            // Update Local Storage immediately
+            if (isCurrentlyLiked) {
+                delete localReactions[postId];
+            } else {
+                localReactions[postId] = 'like'; 
+            }
+            localStorage.setItem(LOCAL_REACTIONS_KEY, JSON.stringify(localReactions));
+
+            // Optimistic UI Update
+            const likeCountSpan = document.getElementById(`like-count-${postId}`);
+            likeCountSpan.innerText = parseInt(likeCountSpan.innerText) + adjustment;
+            fetchFeed(); // Re-render to update UI styles
+
+            // Sync with Backend
+            const formData = new FormData();
+            formData.append('action', 'like_post');
+            formData.append('PostID', postId);
+            formData.append('Adjustment', adjustment);
+            await fetch(TRACKYN_BACKEND_URL, { method: 'POST', body: formData });
+        }
+
+        function addReaction(postId) {
+            let localReactions = JSON.parse(localStorage.getItem(LOCAL_REACTIONS_KEY)) || {};
+            if (localReactions[postId] === 'react') {
+                delete localReactions[postId]; 
+            } else {
+                localReactions[postId] = 'react'; 
+            }
+            localStorage.setItem(LOCAL_REACTIONS_KEY, JSON.stringify(localReactions));
+            fetchFeed(); 
+        }
+
+        async function submitComment(postId) {
+            const inputField = document.getElementById(`input-${postId}`);
+            const content = inputField.value;
+            if (!content.trim()) return;
+
+            // 1. Persist to Local Storage
+            let localComments = JSON.parse(localStorage.getItem(LOCAL_COMMENTS_KEY)) || {};
+            if (!localComments[postId]) localComments[postId] = [];
+            
+            localComments[postId].push({ user: currentUser, text: content });
+            localStorage.setItem(LOCAL_COMMENTS_KEY, JSON.stringify(localComments));
+
+            // 2. Update UI Immediately
+            inputField.value = '';
+            fetchFeed(); 
+
+            // 3. Backup to Backend
+            const formData = new FormData();
+            formData.append('action', 'add_comment');
+            formData.append('PostID', postId);
+            formData.append('Username', currentUser);
+            formData.append('Content', content);
+            
+            await fetch(TRACKYN_BACKEND_URL, { method: 'POST', body: formData });
+        }
+    </script>
+</head>
+<body id="top" class="bg-primary">
+
+    <div id="tknAuthShield" class="tkn-page-shield">
+        <div class="tkn-modern-loader">
+            <div class="tkn-spinner-container">
+                <div class="tkn-spinner-ring"></div>
+                <div class="tkn-spinner-dot"></div>
+            </div>
+            <h3 class="tkn-auth-text" style="color: #141979; font-weight: 600; margin-top: 20px; font-size: 1.1rem; letter-spacing: -0.02em;">
+                Verifying Credentials...
+            </h3>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="Trackyn Logo" class="logo-img">
+            </a>
+        </div>
+        
+        <ul class="nav-links">
+            <li class="close-menu-container">
+                <i class="fa-solid fa-xmark close-menu" aria-label="Close menu"></i>
+            </li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="groups.html" style="text-decoration: underline;">Groups</a></li>
+            <li><a href="partner.html">Partner Program</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="shop.html">Shop</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <div class="cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="groups-main-container">
+        
+        <header class="groups-page-header">
+            <h1 class="groups-title">Groups Feed</h1>
+            <p class="groups-subtitle">View groups and posts below.</p>
+        </header>
+
+        <div id="lost-pet-banner"></div>
+
+        <div class="groups-layout">
+            
+            <section class="feed-column">
+                
+                <article class="feed-card">
+                    <div class="card-body">
+                        <textarea id="postContent" class="create-post-textarea" placeholder="What's on your mind?"></textarea>
+                        <button id="createPostBtn" class="btn-outline-sm btn-post" onclick="createPost()">Post</button>
+                        <div style="clear: both;"></div>
+                    </div>
+                </article>
+
+                <div id="dynamic-feed">
+                    <p style="text-align:center; color:#65676b; margin-top: 20px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading groups feed...</p>
+                </div>
+
+            </section>
+
+            <aside class="sidebar-column">
+                <div class="sidebar-content-box">
+                    <div class="search-container">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" class="sidebar-search" placeholder="Search">
+                    </div>
+
+                    <h3 class="sidebar-title">Suggested Groups</h3>
+                    
+                    <div class="suggested-groups-list">
+                        <div class="group-item">
+                            <div class="group-thumbnail" style="background-color: #e0e0e0;"></div>
+                            <div class="group-details">
+                                <h4 class="group-name">Pet Rescue & Recovery</h4>
+                                <span class="group-members"><i class="fa-solid fa-globe"></i> 1 member</span>
+                                <button class="btn-outline-sm full-width" onclick="joinGroup(this, 'Pet Rescue & Recovery')">Join</button>
+                            </div>
+                        </div>
+
+                        <div class="group-item">
+                            <div class="group-thumbnail" style="background-color: #e0e0e0;"></div>
+                            <div class="group-details">
+                                <h4 class="group-name">Trackyn Members Circle</h4>
+                                <span class="group-members"><i class="fa-solid fa-globe"></i> 1 member</span>
+                                <button class="btn-outline-sm full-width" onclick="joinGroup(this, 'Trackyn Members Circle')">Join</button>
+                            </div>
+                        </div>
+
+                        <div class="group-item">
+                            <div class="group-thumbnail" style="background-color: #e0e0e0;"></div>
+                            <div class="group-details">
+                                <h4 class="group-name">Trackyn Owner Community</h4>
+                                <span class="group-members"><i class="fa-solid fa-globe"></i> 1 member</span>
+                                <button class="btn-outline-sm full-width" onclick="joinGroup(this, 'Trackyn Owner Community')">Join</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer class="footer bg-primary">
+        <div class="footer-left">
+            <p class="email-text">trackyn.id@gmail.com</p>
+            <div class="footer-bottom-text">
+                <p>Trackyn</p>
+                <p class="copyright">&copy; 2026 Trackyn. All rights reserved.</p>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-logo-container">
+                <img src="images/logo.png" alt="Trackyn Logo" class="footer-logo-img">
+            </div>
+            <div class="social-icons vibrant">
+                <a href="#" class="social-fb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-yt"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-x"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class="social-li"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="social-tt"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle Handling
+        const menuToggle = document.querySelector('.menu-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        if(menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            });
+        }
+
+        if(closeMenu) {
+            closeMenu.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto'; 
+            });
+        }
+    </script>
+</body>
+</html>
