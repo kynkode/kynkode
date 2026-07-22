@@ -69,6 +69,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* Hard locked logo sizing limits to 100x35 on all screen variations */
+/* 1. Shared sizing for BOTH header and footer logos */
 .logo-container,
 .footer-logo-container {
     display: block;
@@ -84,6 +85,15 @@ a { text-decoration: none; color: inherit; }
     display: block;
 }
 
+/* 2. Left-alignment ONLY for the header logo */
+.logo-container {
+    margin-left: 0;
+    margin-right: auto; 
+}
+
+.logo-img {
+    object-position: left; 
+}
 .nav-links {
     display: flex;
     list-style: none;
