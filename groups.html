@@ -202,7 +202,7 @@
         const currentUser = sessionStorage.getItem('trackynUser') || 'GuestUser';
         
         // Deployed Google Apps Script Web App URL
-        const TRACKYN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxD4bDcY_5DYCIMJadfk1jjTbUh9ERZfF4z3ZNyAaixth3MgrFDn8NKdUIvKcsesMRT9g/exec';
+        const TRACKYN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzaee5P6-nJb5Fp_1YlI9HGCPjDEUF9kBWpx_IHvLYd_d3mZgSh05XO0EbpkZVXss83/exec';
         
         // Local Storage Keys for UI State Persistence
         const LOCAL_COMMENTS_KEY = 'trackyn_local_comments';
@@ -211,14 +211,14 @@
         // Tracking selected group client-side
         let selectedGroup = '';
 
-        if (!sessionStorage.getItem('trackynUser') && !TRACKYN_BACKEND_URL.includes('AKfycbz')) {
+        if (!sessionStorage.getItem('trackynUser') && !TRACKYN_BACKEND_URL.includes('AKfycbzaee5P6-nJb5Fp_1YlI9HGCPjDEUF9kBWpx_IHvLYd_d3mZgSh05XO0EbpkZVXss83')) {
             window.location.replace('pet-owner.html');
         } else {
             // 2. Server-side verification loop targeting the updated doPost backend endpoint
             document.addEventListener("DOMContentLoaded", () => {
                 
                 // Pure local environment testing fallback bypass:
-                if (TRACKYN_BACKEND_URL.includes('AKfycbxD4bDcY_5DYCIMJadfk1jjTbUh9ERZfF4z3ZNyAaixth3MgrFDn8NKdUIvKcsesMRT9g')) {
+                if (TRACKYN_BACKEND_URL.includes('AKfycbzaee5P6-nJb5Fp_1YlI9HGCPjDEUF9kBWpx_IHvLYd_d3mZgSh05XO0EbpkZVXss83')) {
                     console.warn("Trackyn Development Notice: Running decoupled from backend. Access shield removed.");
                     const shield = document.getElementById('tknAuthShield');
                     if (shield) shield.remove();
