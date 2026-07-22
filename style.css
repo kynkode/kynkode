@@ -72,14 +72,14 @@ a { text-decoration: none; color: inherit; }
 .logo-container,
 .footer-logo-container {
     display: block;
-    width: 100px;
-    height: 35px;
+    width: 200px;
+    height: 70px;
 }
 
 .logo-img,
 .footer-logo-img {
-    width: 100px;
-    height: 35px;
+    width: 200px;
+    height: 70px;
     object-fit: contain;
     display: block;
 }
