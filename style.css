@@ -479,6 +479,7 @@ a { text-decoration: none; color: inherit; }
     .footer-right {
         align-items: center;
     }
+   /* Align mobile top logo strictly to the left padding */ .logo-img { object-position: left center; }
 }
 
 @media (max-width: 480px) {
