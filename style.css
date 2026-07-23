@@ -400,6 +400,11 @@ a { text-decoration: none; color: inherit; }
 /* --- Responsive Media Queries --- */
 @media (max-width: 968px) {
     
+    /* Align mobile top logo strictly to the left padding */
+    .logo-img {
+        object-position: left center;
+    }
+
     /* Reveal Mobile Action Triggers exclusively under breakpoint viewports */
     .menu-toggle {
         display: block !important;
