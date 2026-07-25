@@ -452,6 +452,7 @@
                             <h4>${c.CaseTitle || 'Untitled Case Protocol'}</h4>
                             ${c.Category ? `<span class="case-badge">${c.Category}</span>` : ''}
                             <p>${c.CaseDetails ? c.CaseDetails : 'No summary data cataloged for this case profile.'}</p>
+                            <p style="margin-top: 8px;"><strong>Treatment:</strong> ${c.Treatment ? c.Treatment : 'No treatment data cataloged for this case profile.'}</p>
                         </div>
                     `).join('');
 
