@@ -498,75 +498,87 @@
                     }
 
                     resultsContainer.innerHTML = cases.map(c => {
-                        // --- EXTRACT AND PARSE MEDIA BLOCKS ---
+                        // --- EXTRACT AND PARSE MEDIA BLOCKS AS A LIST ---
                         let mediaBlockHTML = '';
                         if (c['Scans/Images']) {
                             const rawMediaStr = String(c['Scans/Images']);
                             
-                            // Split by newlines or commas to handle pasted multiple links like "filename.mp4 https://..."
+                            // Split primarily by newlines or commas
                             const items = rawMediaStr.split(/[\n,]+/).map(item => item.trim()).filter(item => item);
 
                             if (items.length > 0) {
-                                mediaBlockHTML += `<div style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 14px;">
-                                                    <strong style="color: #0f172a; font-size: 0.95rem;">Scans & Attached Media:</strong>
-                                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">`;
+                                mediaBlockHTML += `
+                                    <div style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 14px;">
+                                        <strong style="color: #0f172a; font-size: 0.95rem; display: block; margin-bottom: 12px;">
+                                            <i class="fa-solid fa-photo-film" style="margin-right: 6px; color: #3730a3;"></i> Scans & Attached Media:
+                                        </strong>
+                                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px;">`;
                                 
                                 items.forEach((item, index) => {
-                                    // Extract the URL strictly
-                                    const urlMatch = item.match(/(https?:\/\/[^\s]+)/);
+                                    // Extract ALL URLs in the string in case they are space-separated on the same line
+                                    const urlsMatch = item.match(/(https?:\/\/[^\s]+)/g);
                                     
-                                    if (urlMatch) {
-                                        const link = urlMatch[0];
-                                        // Take the remaining text as the filename/title
-                                        const fileName = item.replace(link, '').trim(); 
-                                        
-                                        const driveIdMatch = link.match(/[-\w]{25,}/);
-                                        const isDriveLink = link.includes('drive.google.com') && driveIdMatch;
-                                        
-                                        // Evaluate string composite to assign the right UI icon
-                                        const compositeStr = (fileName + " " + link).toLowerCase();
-                                        let iconClass = "fa-file";
-                                        if (compositeStr.match(/\.(mp4|webm|ogg|mov)/)) iconClass = "fa-file-video";
-                                        else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)/)) iconClass = "fa-file-image";
-                                        else if (compositeStr.match(/\.(pdf)/)) iconClass = "fa-file-pdf";
+                                    if (urlsMatch && urlsMatch.length > 0) {
+                                        urlsMatch.forEach(link => {
+                                            // Extract the filename by replacing the URL and trimming
+                                            let fileName = item.replace(link, '').trim();
+                                            // Clean up leading/trailing hyphens or spaces commonly left behind
+                                            fileName = fileName.replace(/^[-\s]+|[-\s]+$/g, '');
+                                            // Fallback title if there is no string before the URL
+                                            if (!fileName || fileName.startsWith('http')) {
+                                                fileName = `Attached Media ${index + 1}`;
+                                            }
+                                            
+                                            // Detect Google Drive IDs (At least 25 characters of alphanumeric, hyphens, or underscores)
+                                            const driveIdMatch = link.match(/[-\w]{25,}/);
+                                            const isDriveLink = link.includes('drive.google.com') && driveIdMatch;
+                                            
+                                            // Evaluate string composite to assign the right UI icon
+                                            const compositeStr = (fileName + " " + link).toLowerCase();
+                                            let iconClass = "fa-file";
+                                            if (compositeStr.match(/\.(mp4|webm|ogg|mov)/)) iconClass = "fa-file-video";
+                                            else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)/)) iconClass = "fa-file-image";
+                                            else if (compositeStr.match(/\.(pdf)/)) iconClass = "fa-file-pdf";
 
-                                        // Formatted label title above media (e.g., "3whyedited - Kynkode.mp4")
-                                        const labelHTML = fileName ? `<div style="font-size: 0.85rem; color: #475569; margin-bottom: 8px; font-weight: 600;"><i class="fa-solid ${iconClass}" style="margin-right: 6px; color: #3730a3;"></i>${fileName}</div>` : '';
+                                            let contentHTML = '';
+                                            if (isDriveLink) {
+                                                const fileId = driveIdMatch[0];
+                                                // Secure Drive preview iFrame mapped strictly to /preview logic
+                                                contentHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 350px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f1f5f9; display: block; margin-top: 10px;" allow="autoplay" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
+                                            } else if (compositeStr.match(/\.(mp4|webm|ogg)$/i)) {
+                                                contentHTML = `
+                                                    <video controls playsinline preload="metadata" style="width: 100%; max-height: 350px; border-radius: 6px; background: #000; outline: none; border: none; display: block; margin-top: 10px;">
+                                                        <source src="${link}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>`;
+                                            } else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+                                                contentHTML = `<img src="${link}" alt="${fileName}" style="width: 100%; max-height: 350px; object-fit: contain; border-radius: 6px; background: #f8fafc; border: 1px solid #e2e8f0; display: block; margin-top: 10px;" />`;
+                                            } else {
+                                                contentHTML = `
+                                                    <a href="${link}" target="_blank" style="display: inline-block; background: #3730a3; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; margin-top: 10px;">
+                                                        <i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i> Access External File
+                                                    </a>`;
+                                            }
 
-                                        mediaBlockHTML += `<div class="media-container">`;
-                                        mediaBlockHTML += labelHTML;
-
-                                        if (isDriveLink) {
-                                            const fileId = driveIdMatch[0];
-                                            // Secure Drive preview iFrame - universally renders both images and MP4 players
+                                            // Render Individual List Item
                                             mediaBlockHTML += `
-                                                <iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 300px; border: none; border-radius: 6px; background: #f1f5f9; display: block;" allow="autoplay" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
-                                        } else if (compositeStr.match(/\.(mp4|webm|ogg)$/i)) {
-                                            // Fallback for direct MP4 links not hosted on Google Drive (Added playsinline and preload)
-                                            mediaBlockHTML += `
-                                                <video controls playsinline preload="metadata" style="width: 100%; max-height: 300px; border-radius: 6px; background: #000; outline: none; border: none; display: block;">
-                                                    <source src="${link}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>`;
-                                        } else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-                                            // Fallback for direct Image links not hosted on Google Drive
-                                            mediaBlockHTML += `
-                                                <img src="${link}" alt="Case File" style="width: 100%; max-height: 300px; object-fit: contain; border-radius: 6px; background: #f8fafc; display: block;" />`;
-                                        } else {
-                                            // Universal generic file button
-                                            mediaBlockHTML += `
-                                                <a href="${link}" target="_blank" style="display: inline-block; background: #3730a3; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500;">
-                                                    <i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i> Access External File
-                                                </a>`;
-                                        }
-                                        mediaBlockHTML += `</div>`;
+                                                <li style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                                    <div style="font-size: 0.9rem; color: #334155; font-weight: 600; word-break: break-all;">
+                                                        <i class="fa-solid ${iconClass}" style="margin-right: 6px; color: #3730a3;"></i>${fileName}
+                                                    </div>
+                                                    ${contentHTML}
+                                                </li>`;
+                                        });
                                     } else {
                                         // Render textual notes safely if no URL is parsed inside the cell block
-                                        mediaBlockHTML += `<div style="font-size: 0.85rem; color: #64748b; padding: 10px; background: #f1f5f9; border-radius: 6px; border-left: 3px solid #cbd5e1;"><i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i>${item}</div>`;
+                                        mediaBlockHTML += `
+                                            <li style="font-size: 0.85rem; color: #64748b; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 3px solid #cbd5e1;">
+                                                <i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i>${item}
+                                            </li>`;
                                     }
                                 });
                                 
-                                mediaBlockHTML += `</div></div>`;
+                                mediaBlockHTML += `</ul></div>`;
                             }
                         }
 
