@@ -23,13 +23,13 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px); /* Safari support */
+            -webkit-backdrop-filter: blur(4px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
-            padding: 15px; /* Visual buffer for mobile edge mapping */
+            padding: 15px;
         }
         .search-modal.active {
             display: flex;
@@ -61,7 +61,7 @@
             font-size: 1.5rem;
             border-bottom: 2px solid #eee;
             padding-bottom: 12px;
-            padding-right: 40px; /* Vital safety margin: text will wrap instead of overlapping close icon */
+            padding-right: 40px;
         }
 
         /* Top Corner Close Button */
@@ -74,7 +74,7 @@
             color: #666;
             transition: color 0.2s, transform 0.2s;
             z-index: 1010;
-            padding: 4px; /* Expand mobile click target space */
+            padding: 4px;
         }
         .close-modal:hover {
             color: #000;
@@ -87,7 +87,7 @@
             flex-grow: 1;
             padding-right: 8px;
             margin-right: -4px;
-            -webkit-overflow-scrolling: touch; /* Butter-smooth scrolling on iOS */
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Custom Clean Scrollbar Track */
@@ -136,9 +136,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ==========================================
-           CREATIVE DATA PRESENTATION STYLES
-           ========================================== */
+        /* Data Formatting Styles */
         .case-data-container {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -213,6 +211,15 @@
             margin-right: 6px;
         }
 
+        /* Inline Media Blocks */
+        .media-container {
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
         /* CSS Loading Component */
         .loader {
             border: 4px solid #f1f5f9;
@@ -228,40 +235,21 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ==========================================
-           MOBILE & TABLET RESPONSIVE BREAKPOINTS
-           ========================================== */
         @media (max-width: 576px) {
-            .search-modal {
-                padding: 10px;
-            }
+            .search-modal { padding: 10px; }
             .search-modal-content {
                 padding: 18px;
-                max-height: 90vh; /* Give content more vertical real estate on small viewport layouts */
+                max-height: 90vh;
                 border-radius: 10px;
             }
-            .close-modal {
-                top: 16px;
-                right: 16px;
-                font-size: 22px;
-            }
+            .close-modal { top: 16px; right: 16px; font-size: 22px; }
             .search-modal h2 {
                 font-size: 1.25rem;
                 margin-bottom: 16px;
                 padding-bottom: 10px;
                 padding-right: 36px;
             }
-            .case-result {
-                padding: 14px;
-                margin-bottom: 10px;
-            }
-            .case-result h4 {
-                font-size: 1.05rem;
-            }
-            .case-data-container, .case-treatment-box {
-                font-size: 0.875rem;
-                padding: 12px 14px;
-            }
+            .case-result { padding: 14px; margin-bottom: 10px; }
         }
     </style>
 </head>
@@ -322,97 +310,81 @@
                 </div>
 
                 <div class="lp-cards-grid">
-                    
                     <div class="lp-card">
                         <h3 class="lp-card-title">🔬Dermatology</h3>
                         <p class="lp-card-text">Dermatitis, Mange, Fungal infections, Allergies, Wounds</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🩺Gastrointestinal (GI)</h3>
                         <p class="lp-card-text">Vomiting, Diarrhea, Foreign bodies, Parvovirus, Gastritis</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🫁Respiratory</h3>
                         <p class="lp-card-text">Pneumonia, Kennel cough, Feline upper respiratory disease</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">❤️Cardiovascular</h3>
                         <p class="lp-card-text">Heart disease, Murmurs, Congestive heart failure</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">💧Urogenital</h3>
                         <p class="lp-card-text">UTIs, Kidney disease, Urinary obstruction</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🍼Reproductive</h3>
                         <p class="lp-card-text">Pyometra, Dystocia, Infertility</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🦴Orthopedics</h3>
                         <p class="lp-card-text">Fractures, Lameness, Hip dysplasia, Ligament injuries</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🧠Neurology</h3>
                         <p class="lp-card-text">Seizures, Paralysis, Nerve injuries</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🩸Hematology / Oncology</h3>
                         <p class="lp-card-text">Anemia, Tumors, Leukemia</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">⚖️Endocrinology</h3>
                         <p class="lp-card-text">Diabetes, Hyperthyroidism, Cushing’s</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🦠Infectious Diseases</h3>
                         <p class="lp-card-text">Parvo, Distemper, Rabies, Tick-borne diseases</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🧪Toxicology</h3>
                         <p class="lp-card-text">Poisoning, Drug reactions, Environmental toxins</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🚑Emergency & Critical Care</h3>
                         <p class="lp-card-text">Shock, Trauma, Bleeding, Collapse</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">📋Preventive Medicine</h3>
                         <p class="lp-card-text">Vaccination protocols, Deworming, Parasite control</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                     <div class="lp-card">
                         <h3 class="lp-card-title">🐾Exotic Animal Medicine</h3>
                         <p class="lp-card-text">Rabbits, Reptiles, Birds</p>
                         <button class="lp-card-btn">Search</button>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -436,8 +408,6 @@
                 <a href="#" class="social-ig"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#" class="social-yt"><i class="fa-brands fa-youtube"></i></a>
                 <a href="#" class="social-x"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#" class="social-li"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="#" class="social-tt"><i class="fa-brands fa-tiktok"></i></a>
             </div>
         </div>
     </footer>
@@ -446,13 +416,11 @@
         <div class="search-modal-content">
             <i class="fa-solid fa-xmark close-modal" id="close-modal" aria-label="Close search overlay"></i>
             <h2>Search Results</h2>
-            <div id="search-results-container" class="results-container">
-                </div>
+            <div id="search-results-container" class="results-container"></div>
         </div>
     </div>
 
     <script>
-        // === Mobile Nav Dropdown Mechanics ===
         const menuToggle = document.querySelector('.menu-toggle');
         const closeMenu = document.querySelector('.close-menu');
         const navLinks = document.querySelector('.nav-links');
@@ -474,7 +442,6 @@
         // === Live Production API Route Configuration ===
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBzNHoEiO3jW-2WM0T_9J8uwkl7cLSid3RvFzw5-Fy3o_oabkoLqbSNjeZrF7qPCHK/exec"; 
 
-        // === Global Modal UI Controllers ===
         const modal = document.getElementById('search-modal');
         const closeModalBtn = document.getElementById('close-modal');
         const resultsContainer = document.getElementById('search-results-container');
@@ -492,32 +459,19 @@
 
         function openModal() {
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Stop scrolling background elements under display layer
+            document.body.style.overflow = 'hidden';
         }
 
-        // === Creative Text Formatting Engine ===
-        // This function parses the raw block text and turns labels, bullets, and numbers into stylized UI elements.
+        // === Text Formatting Engine ===
         function creativelyFormatText(text, isTreatment = false) {
             if (!text) return isTreatment ? 'No treatment data cataloged.' : 'No summary data cataloged.';
-            
-            // Clean up multi-spacing errors from database
             let html = text.replace(/\s+/g, ' ');
-
-            // 1. Format bullet points (•) and prepend line breaks with FontAwesome icons
             html = html.replace(/•\s/g, '<br><i class="fa-solid fa-caret-right bullet-icon"></i> ');
-
-            // 2. Format numbered lists (1., 2., etc.) 
             html = html.replace(/(\d+)\.\s/g, '<br><span class="number-badge">$1.</span> ');
-
-            // 3. Highlight major section labels (e.g., "History:", "Physical Exam:", "Intervention:")
-            // Matches Capitalized Words followed by a colon.
             html = html.replace(/([A-Z][a-zA-Z\s\-\&\/]{2,35}):/g, function(match, p1) {
                 return `<br><span class="section-badge ${isTreatment ? 'treatment-badge' : 'details-badge'}">${p1}</span>:`;
             });
-
-            // 4. Strip out any double leading line breaks generated by the regex formatting
             html = html.replace(/^(<br>)+/, '').replace(/(<br>){2,}/g, '<br>');
-
             return html;
         }
 
@@ -526,7 +480,6 @@
             if (!query || !query.trim()) return;
             
             openModal();
-            // Display standard infinite rotation keyframe animation
             resultsContainer.innerHTML = `
                 <div class="loader"></div>
                 <p style="text-align:center; color:#64748b; font-size:0.95rem;">Querying Clinivault database...</p>
@@ -544,48 +497,72 @@
                         return;
                     }
 
-                    // Dynamically map array instances inside clean HTML string blocks
                     resultsContainer.innerHTML = cases.map(c => {
-                        // --- EXTRACT AND RENDER SCANS/IMAGES IF AVAILABLE ---
+                        // --- EXTRACT AND PARSE MEDIA BLOCKS ---
                         let mediaBlockHTML = '';
                         if (c['Scans/Images']) {
-                            const links = String(c['Scans/Images']).split(',').map(l => l.trim()).filter(l => l);
+                            const rawMediaStr = String(c['Scans/Images']);
                             
-                            if (links.length > 0) {
-                                mediaBlockHTML += `<div style="margin-top: 14px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
-                                                    <strong style="color: #0f172a; font-size: 0.95rem;">Scans & Images:</strong>
-                                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">`;
-                                
-                                links.forEach((link, index) => {
-                                    // Robust parsing for Drive IDs, Direct Images, and Direct MP4s
-                                    const driveIdMatch = link.match(/[-\w]{25,}/);
-                                    const isDriveLink = link.includes('drive.google.com') && driveIdMatch;
-                                    const lowerLink = link.toLowerCase();
-                                    const isVideo = lowerLink.includes('.mp4') || lowerLink.includes('.webm') || lowerLink.includes('.ogg');
-                                    const isImage = lowerLink.match(/\.(jpeg|jpg|gif|png|webp)$/i);
+                            // Split by newlines or commas to handle pasted multiple links like "filename.mp4 https://..."
+                            const items = rawMediaStr.split(/[\n,]+/).map(item => item.trim()).filter(item => item);
 
-                                    if (isDriveLink) {
-                                        const fileId = driveIdMatch[0];
-                                        // Renders seamless Google Drive preview
-                                        mediaBlockHTML += `
-                                            <iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 300px; border: none; border-radius: 8px; background: #e2e8f0; overflow: hidden; display: block;" allow="autoplay" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
-                                    } else if (isVideo) {
-                                        // HTML5 Video tag for direct .mp4 links
-                                        mediaBlockHTML += `
-                                            <video controls style="width: 100%; max-height: 300px; border-radius: 8px; background: #000; outline: none; border: none; display: block;">
-                                                <source src="${link}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>`;
-                                    } else if (isImage) {
-                                        // Image tag for direct image links
-                                        mediaBlockHTML += `
-                                            <img src="${link}" alt="Case File" style="width: 100%; max-height: 300px; object-fit: contain; border-radius: 8px; background: #f8fafc; border: none; display: block;" />`;
+                            if (items.length > 0) {
+                                mediaBlockHTML += `<div style="margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 14px;">
+                                                    <strong style="color: #0f172a; font-size: 0.95rem;">Scans & Attached Media:</strong>
+                                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">`;
+                                
+                                items.forEach((item, index) => {
+                                    // Extract the URL strictly
+                                    const urlMatch = item.match(/(https?:\/\/[^\s]+)/);
+                                    
+                                    if (urlMatch) {
+                                        const link = urlMatch[0];
+                                        // Take the remaining text as the filename/title
+                                        const fileName = item.replace(link, '').trim(); 
+                                        
+                                        const driveIdMatch = link.match(/[-\w]{25,}/);
+                                        const isDriveLink = link.includes('drive.google.com') && driveIdMatch;
+                                        
+                                        // Evaluate string composite to assign the right UI icon
+                                        const compositeStr = (fileName + " " + link).toLowerCase();
+                                        let iconClass = "fa-file";
+                                        if (compositeStr.match(/\.(mp4|webm|ogg|mov)/)) iconClass = "fa-file-video";
+                                        else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)/)) iconClass = "fa-file-image";
+                                        else if (compositeStr.match(/\.(pdf)/)) iconClass = "fa-file-pdf";
+
+                                        // Formatted label title above media (e.g., "3whyedited - Kynkode.mp4")
+                                        const labelHTML = fileName ? `<div style="font-size: 0.85rem; color: #475569; margin-bottom: 8px; font-weight: 600;"><i class="fa-solid ${iconClass}" style="margin-right: 6px; color: #3730a3;"></i>${fileName}</div>` : '';
+
+                                        mediaBlockHTML += `<div class="media-container">`;
+                                        mediaBlockHTML += labelHTML;
+
+                                        if (isDriveLink) {
+                                            const fileId = driveIdMatch[0];
+                                            // Secure Drive preview iFrame - universally renders both images and MP4 players
+                                            mediaBlockHTML += `
+                                                <iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 300px; border: none; border-radius: 6px; background: #f1f5f9; display: block;" allow="autoplay" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
+                                        } else if (compositeStr.match(/\.(mp4|webm|ogg)$/i)) {
+                                            // Fallback for direct MP4 links not hosted on Google Drive (Added playsinline and preload)
+                                            mediaBlockHTML += `
+                                                <video controls playsinline preload="metadata" style="width: 100%; max-height: 300px; border-radius: 6px; background: #000; outline: none; border: none; display: block;">
+                                                    <source src="${link}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>`;
+                                        } else if (compositeStr.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+                                            // Fallback for direct Image links not hosted on Google Drive
+                                            mediaBlockHTML += `
+                                                <img src="${link}" alt="Case File" style="width: 100%; max-height: 300px; object-fit: contain; border-radius: 6px; background: #f8fafc; display: block;" />`;
+                                        } else {
+                                            // Universal generic file button
+                                            mediaBlockHTML += `
+                                                <a href="${link}" target="_blank" style="display: inline-block; background: #3730a3; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+                                                    <i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i> Access External File
+                                                </a>`;
+                                        }
+                                        mediaBlockHTML += `</div>`;
                                     } else {
-                                        // Standard fallback link for anything else
-                                        mediaBlockHTML += `
-                                            <a href="${link}" target="_blank" style="display: inline-block; background: #3730a3; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; align-self: flex-start;">
-                                                <i class="fa-solid fa-file" style="margin-right: 6px;"></i> View File ${index + 1}
-                                            </a>`;
+                                        // Render textual notes safely if no URL is parsed inside the cell block
+                                        mediaBlockHTML += `<div style="font-size: 0.85rem; color: #64748b; padding: 10px; background: #f1f5f9; border-radius: 6px; border-left: 3px solid #cbd5e1;"><i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i>${item}</div>`;
                                     }
                                 });
                                 
@@ -593,7 +570,7 @@
                             }
                         }
 
-                        // --- MAIN CARD TEMPLATE RETURN WITH CREATIVE FORMATTING APPLIED ---
+                        // --- RENDER MAIN CARD TEMPLATE ---
                         return `
                         <div class="case-result">
                             <h4>${c.CaseTitle || 'Untitled Case Protocol'}</h4>
@@ -620,11 +597,9 @@
 
             } catch (error) {
                 resultsContainer.innerHTML = `<p style="text-align:center; color:#ef4444; padding:10px;">Cloud Gateway Network Timeout. Validate connectivity status.</p>`;
-                console.error("Fetch Exception Stack Trace:", error);
             }
         }
 
-        // Map Keyboard Events to Input Field Focus Elements
         if (mainSearchInput) {
             mainSearchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
@@ -633,18 +608,14 @@
             });
         }
 
-        // Universal Category Grid Extraction Mapping Logic
         document.querySelectorAll('.lp-card-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const card = e.target.closest('.lp-card');
-                
-                // Cleanse unicode emoji ranges and text properties out of raw text blocks
                 const rawTitle = card.querySelector('.lp-card-title').innerText.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '');
                 const rawText = card.querySelector('.lp-card-text').innerText;
-                
                 const combinedQuery = `${rawTitle.trim()} ${rawText.trim()}`;
                 
-                mainSearchInput.value = combinedQuery; // Keep standard inputs mirrored with user category actions
+                mainSearchInput.value = combinedQuery; 
                 triggerSearch(combinedQuery);
             });
         });
