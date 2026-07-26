@@ -447,14 +447,45 @@
                     }
 
                     // Dynamically map array instances inside clean HTML string blocks
-                    resultsContainer.innerHTML = cases.map(c => `
+                    resultsContainer.innerHTML = cases.map(c => {
+                        // --- EXTRACT AND RENDER SCANS/IMAGES IF AVAILABLE ---
+                        let mediaBlockHTML = '';
+                        if (c['Scans/Images']) {
+                            const links = String(c['Scans/Images']).split(',').map(l => l.trim()).filter(l => l);
+                            
+                            if (links.length > 0) {
+                                mediaBlockHTML += `<div style="margin-top: 14px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                                                    <strong style="color: #0f172a; font-size: 0.95rem;">Scans & Images:</strong>
+                                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">`;
+                                
+                                links.forEach((link, index) => {
+                                    // Verify if the link is a standard Google Drive file URL to generate an iframe preview
+                                    const driveIdMatch = link.match(/[-\w]{25,}/);
+                                    if (driveIdMatch) {
+                                        const fileId = driveIdMatch[0];
+                                        mediaBlockHTML += `<iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 250px; border: none; border-radius: 6px; background: #e2e8f0;"></iframe>`;
+                                    } else {
+                                        // Standard fallback for external image/file links
+                                        mediaBlockHTML += `<a href="${link}" target="_blank" style="display: inline-block; background: #3730a3; color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; align-self: flex-start;">
+                                            <i class="fa-solid fa-file-image" style="margin-right: 6px;"></i> View File ${index + 1}
+                                        </a>`;
+                                    }
+                                });
+                                
+                                mediaBlockHTML += `</div></div>`;
+                            }
+                        }
+
+                        // --- MAIN CARD TEMPLATE RETURN ---
+                        return `
                         <div class="case-result">
                             <h4>${c.CaseTitle || 'Untitled Case Protocol'}</h4>
                             ${c.Category ? `<span class="case-badge">${c.Category}</span>` : ''}
                             <p>${c.CaseDetails ? c.CaseDetails : 'No summary data cataloged for this case profile.'}</p>
                             <p style="margin-top: 8px;"><strong>Treatment:</strong> ${c.Treatment ? c.Treatment : 'No treatment data cataloged for this case profile.'}</p>
+                            ${mediaBlockHTML}
                         </div>
-                    `).join('');
+                    `}).join('');
 
                 } else {
                     resultsContainer.innerHTML = `<p style="text-align:center; color:#ef4444; padding:10px;">Database Error Engine Exception: ${json.message}</p>`;
