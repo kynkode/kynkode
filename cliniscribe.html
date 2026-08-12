@@ -1,0 +1,416 @@
+<!-- ========================================== -->
+<!-- FILE 2: index.html (Frontend)              -->
+<!-- ========================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultation AI Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Added html2pdf for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+
+  <div class="max-w-4xl mx-auto space-y-6">
+    
+    <!-- Settings & Letterhead Configuration -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl w-full">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Letterhead & Location Settings</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+        <input type="text" id="clinicName" placeholder="Clinic / Hospital Name" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" value="General Hospital">
+        <input type="text" id="doctorName" placeholder="Provider Name" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500" value="Dr. John Doe">
+        <input type="email" id="patientEmail" placeholder="Patient Email Address" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div class="text-xs text-slate-400 font-mono flex items-start sm:items-center gap-2 flex-col sm:flex-row">
+        <span>📍 Detected Clinic Location:</span>
+        <span id="locationData" class="text-emerald-400 font-semibold break-words">Detecting...</span>
+      </div>
+    </div>
+
+    <!-- Header & Controls -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+      <div class="w-full lg:w-auto">
+        <h1 class="text-2xl font-bold text-indigo-400">Consultation Listener</h1>
+        <p class="text-xs text-slate-400 mt-1 font-mono" id="statusText">Status: Ready to record</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row flex-wrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
+        <button id="recordBtn" onclick="startRecording()" class="w-full sm:w-auto px-6 py-3 sm:py-2 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-xl transition shadow-lg active:scale-95 text-sm">
+          🎙️ Record
+        </button>
+        <button id="stopBtn" onclick="stopRecording()" disabled class="w-full sm:w-auto px-6 py-3 sm:py-2 bg-rose-600 hover:bg-rose-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm">
+          ⏹️ Stop
+        </button>
+        <button id="generateBtn" onclick="processEditedTranscript()" disabled class="w-full sm:w-auto px-6 py-3 sm:py-2 bg-emerald-600 hover:bg-emerald-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm">
+          ⚙️ Generate AI Report
+        </button>
+        <button id="downloadPdfBtn" onclick="downloadPDF()" disabled class="w-full sm:w-auto px-6 py-3 sm:py-2 bg-blue-600 hover:bg-blue-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm">
+          📄 PDF
+        </button>
+        <button id="emailBtn" onclick="sendEmailToPatient()" disabled class="w-full sm:w-auto px-6 py-3 sm:py-2 bg-purple-600 hover:bg-purple-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm">
+          📧 Email Patient
+        </button>
+      </div>
+    </div>
+
+    <!-- Editable Live Transcript Box -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg flex flex-col w-full">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Editable Transcript</h2>
+        <span class="text-[10px] text-slate-500">Edit text before generating report</span>
+      </div>
+      <textarea id="transcriptText" class="w-full bg-slate-700 text-sm text-slate-200 rounded-xl p-4 min-h-[120px] focus:ring-2 focus:ring-indigo-500 outline-none resize-y placeholder-slate-500" placeholder="Audio transcript will appear here. You can manually type or edit this text before clicking 'Generate AI Report'..."></textarea>
+    </div>
+
+    <!-- Output Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full" id="reportUI">
+      
+      <!-- SOAP Clinical Report -->
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg space-y-4 w-full">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 border-b border-slate-700 pb-2">Clinical SOAP Report</h2>
+        <div class="space-y-3 text-sm text-slate-300" id="soapContainer">
+          <div class="break-words"><span class="font-bold text-slate-100">S:</span> <span id="soapS">-</span></div>
+          <div class="break-words"><span class="font-bold text-slate-100">O:</span> <span id="soapO">-</span></div>
+          <div class="break-words"><span class="font-bold text-slate-100">A:</span> <span id="soapA">-</span></div>
+          <div class="break-words"><span class="font-bold text-slate-100">P:</span> <span id="soapP">-</span></div>
+        </div>
+      </div>
+
+      <!-- Client/Patient Instructions -->
+      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg space-y-4 w-full">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-700 pb-2">Client Discharge Instructions</h2>
+        <p id="instructionsText" class="text-sm text-slate-300 leading-relaxed min-h-[100px] break-words">-</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Hidden Container for PDF Rendering -->
+  <div id="pdfTemplate" class="hidden bg-white text-black p-6 sm:p-10 w-[800px] max-w-full">
+    <div class="border-b-2 border-slate-800 pb-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900" id="pdfClinicName">Clinic Name</h1>
+        <h2 class="text-base sm:text-lg text-slate-700 mt-1" id="pdfDoctorName">Doctor Name</h2>
+      </div>
+      <div class="text-left sm:text-right text-xs sm:text-sm text-slate-500">
+        <p id="pdfLocation">Location</p>
+        <p id="pdfDate">Date</p>
+      </div>
+    </div>
+    
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2">SOAP Note</h3>
+      <div class="text-sm space-y-3">
+        <p><strong>Subjective:</strong> <span id="pdfS"></span></p>
+        <p><strong>Objective:</strong> <span id="pdfO"></span></p>
+        <p><strong>Assessment:</strong> <span id="pdfA"></span></p>
+        <p><strong>Plan:</strong> <span id="pdfP"></span></p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2">Discharge Instructions</h3>
+      <p class="text-sm whitespace-pre-wrap" id="pdfInstructions"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    // -------------------------------------------------------------
+    // CONFIGURATION: Set your deployed Google Apps Script URL here
+    // -------------------------------------------------------------
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKgc_7LH5gRwfA_dSus6Vl9sWGLHqi5-hEa5FTkmcaySJc0khdf8cQlACShD4iJjq-UQ/exec";
+
+    let detectedLocation = "Unknown Location";
+
+    // 1. IP Geolocation Fetch on Load
+    async function fetchLocation() {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        detectedLocation = `${data.city}, ${data.region}, ${data.country_name} (IP: ${data.ip})`;
+        document.getElementById('locationData').innerText = detectedLocation;
+      } catch (err) {
+        document.getElementById('locationData').innerText = "Location detection failed";
+      }
+    }
+    fetchLocation();
+
+    // Dynamic Web Worker
+    const workerCode = `
+      import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers/+esm';
+      import { CreateMLCEngine } from 'https://esm.run/@mlc-ai/web-llm';
+
+      env.allowLocalModels = false;
+      let transcriber = null;
+      let llmEngine = null;
+
+      self.onmessage = async (e) => {
+        const { type, payload } = e.data;
+        try {
+          if (type === 'LOAD_WHISPER') {
+            self.postMessage({ status: 'progress', message: 'Loading Whisper Speech Model (WebGPU)...' });
+            transcriber = await pipeline('automatic-speech-recognition', 'onnx-community/whisper-tiny.en', { device: 'webgpu' });
+            self.postMessage({ status: 'ready_whisper' });
+          }
+          if (type === 'TRANSCRIBE') {
+            self.postMessage({ status: 'progress', message: 'Transcribing consultation audio locally...' });
+            const output = await transcriber(payload.audioUrl, { chunk_length_s: 30, stride_length_s: 5 });
+            self.postMessage({ status: 'transcribed', text: output.text });
+          }
+          if (type === 'UNLOAD_WHISPER') {
+            if (transcriber?.dispose) transcriber.dispose();
+            transcriber = null;
+            self.postMessage({ status: 'unloaded_whisper' });
+          }
+          if (type === 'PROCESS_EDITED_TEXT') {
+            self.postMessage({ status: 'progress', message: 'Loading WebLLM AI Engine (WebGPU)...' });
+            if (!llmEngine) {
+                llmEngine = await CreateMLCEngine("Phi-3-mini-4k-instruct-q4f16_1-MLC", {
+                  initProgressCallback: (info) => self.postMessage({ status: 'progress', message: info.text })
+                });
+            }
+            
+            self.postMessage({ status: 'progress', message: 'Analyzing edited transcript...' });
+            const prompt = \`Analyze this doctor-patient conversation transcript:
+"\${payload.transcript}"
+
+Return a strictly formatted JSON object with two top-level keys:
+1. "SOAP": An object with keys "Subjective", "Objective", "Assessment", "Plan".
+2. "ClientInstructions": A clear, plain-language home care guide for the patient/client.
+
+Output MUST be valid JSON only.\`;
+
+            const reply = await llmEngine.chat.completions.create({
+              messages: [
+                { role: "system", content: "You are a clinical documentation specialist. Output valid JSON only." },
+                { role: "user", content: prompt }
+              ],
+              response_format: { type: "json_object" }
+            });
+
+            const parsed = JSON.parse(reply.choices[0].message.content);
+            self.postMessage({ status: 'reports_generated', data: parsed });
+          }
+          if (type === 'UNLOAD_LLM') {
+            if (llmEngine) await llmEngine.unload();
+            llmEngine = null;
+            self.postMessage({ status: 'unloaded_llm' });
+          }
+        } catch (err) {
+          self.postMessage({ status: 'error', error: err.message });
+        }
+      };
+    `;
+
+    const blob = new Blob([workerCode], { type: 'application/javascript' });
+    const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
+
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let generatedData = null;
+
+    const statusText = document.getElementById('statusText');
+    const recordBtn = document.getElementById('recordBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+    const emailBtn = document.getElementById('emailBtn');
+    const transcriptBox = document.getElementById('transcriptText');
+
+    worker.onmessage = async (e) => {
+      const { status, message, text, data, error } = e.data;
+
+      if (error) {
+        statusText.innerText = `Error: ${error}`;
+        return;
+      }
+
+      if (status === 'progress') statusText.innerText = message;
+      
+      if (status === 'ready_whisper') {
+        statusText.innerText = "Recording conversation...";
+      }
+
+      if (status === 'transcribed') {
+        transcriptBox.value = text;
+        statusText.innerText = "Transcription complete. You may edit the text now.";
+        worker.postMessage({ type: 'UNLOAD_WHISPER' });
+        
+        generateBtn.disabled = false;
+        generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+
+      if (status === 'reports_generated') {
+        generatedData = data;
+        
+        document.getElementById('soapS').innerText = data.SOAP?.Subjective || "N/A";
+        document.getElementById('soapO').innerText = data.SOAP?.Objective || "N/A";
+        document.getElementById('soapA').innerText = data.SOAP?.Assessment || "N/A";
+        document.getElementById('soapP').innerText = data.SOAP?.Plan || "N/A";
+        document.getElementById('instructionsText').innerText = data.ClientInstructions || "N/A";
+
+        // Enable buttons
+        downloadPdfBtn.disabled = false;
+        downloadPdfBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        emailBtn.disabled = false;
+        emailBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+        statusText.innerText = "Unloading reasoning engine...";
+        worker.postMessage({ type: 'UNLOAD_LLM' });
+      }
+
+      if (status === 'unloaded_llm') {
+        statusText.innerText = "Syncing record to DB...";
+        await syncToDatabase(generatedData);
+      }
+    };
+
+    window.startRecording = async () => {
+      audioChunks = [];
+      transcriptBox.value = "";
+      generateBtn.disabled = true;
+      generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      downloadPdfBtn.disabled = true;
+      downloadPdfBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      emailBtn.disabled = true;
+      emailBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        worker.postMessage({ type: 'TRANSCRIBE', payload: { audioUrl } });
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      worker.postMessage({ type: 'LOAD_WHISPER' });
+      mediaRecorder.start();
+
+      recordBtn.disabled = true;
+      recordBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      stopBtn.disabled = false;
+      stopBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    };
+
+    window.stopRecording = () => {
+      mediaRecorder.stop();
+      recordBtn.disabled = false;
+      recordBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      stopBtn.disabled = true;
+      stopBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    };
+
+    window.processEditedTranscript = () => {
+      const editedText = transcriptBox.value.trim();
+      if (!editedText) return alert("Transcript is empty!");
+      
+      generateBtn.disabled = true;
+      generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      
+      worker.postMessage({ 
+        type: 'PROCESS_EDITED_TEXT', 
+        payload: { transcript: editedText } 
+      });
+    };
+
+    async function syncToDatabase(payloadData) {
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            Location: detectedLocation,
+            ...payloadData
+          })
+        });
+        statusText.innerText = "Successfully saved to DB!";
+      } catch (err) {
+        statusText.innerText = `Sync failed: ${err.message}`;
+      }
+    }
+
+    // Email Functionality
+    window.sendEmailToPatient = async () => {
+      const emailInput = document.getElementById('patientEmail').value.trim();
+      if (!emailInput) {
+        alert("Please enter a valid Patient Email Address in the settings above.");
+        return;
+      }
+      if (!generatedData) return;
+
+      const originalText = emailBtn.innerHTML;
+      emailBtn.innerHTML = "Sending...";
+      emailBtn.disabled = true;
+      statusText.innerText = "Preparing and sending email to patient...";
+
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            action: "email",
+            patientEmail: emailInput,
+            clinicName: document.getElementById('clinicName').value || "Clinic Name",
+            doctorName: document.getElementById('doctorName').value || "Doctor Name",
+            Location: detectedLocation,
+            SOAP: generatedData.SOAP,
+            ClientInstructions: generatedData.ClientInstructions
+          })
+        });
+        
+        const result = await response.json();
+        if(result.status === "success") {
+           statusText.innerText = "Email sent and recorded to DB successfully!";
+        } else {
+           throw new Error(result.message);
+        }
+      } catch (err) {
+        statusText.innerText = `Email failed: ${err.message}`;
+      } finally {
+        emailBtn.innerHTML = originalText;
+        emailBtn.disabled = false;
+      }
+    };
+
+    // Frontend PDF Generation Function (Downloadable immediately)
+    window.downloadPDF = () => {
+      if (!generatedData) return;
+
+      document.getElementById('pdfClinicName').innerText = document.getElementById('clinicName').value || "Clinic Name";
+      document.getElementById('pdfDoctorName').innerText = document.getElementById('doctorName').value || "Doctor Name";
+      document.getElementById('pdfLocation').innerText = detectedLocation;
+      document.getElementById('pdfDate').innerText = new Date().toLocaleString();
+      
+      document.getElementById('pdfS').innerText = generatedData.SOAP?.Subjective || "N/A";
+      document.getElementById('pdfO').innerText = generatedData.SOAP?.Objective || "N/A";
+      document.getElementById('pdfA').innerText = generatedData.SOAP?.Assessment || "N/A";
+      document.getElementById('pdfP').innerText = generatedData.SOAP?.Plan || "N/A";
+      document.getElementById('pdfInstructions').innerText = generatedData.ClientInstructions || "N/A";
+
+      const element = document.getElementById('pdfTemplate');
+      element.classList.remove('hidden');
+      element.classList.add('block');
+
+      const opt = {
+        margin:       1,
+        filename:     `Clinical_Report_${new Date().getTime()}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        element.classList.remove('block');
+        element.classList.add('hidden');
+      });
+    };
+  </script>
+</body>
+</html>
