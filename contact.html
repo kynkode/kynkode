@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kynkode | Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body id="top">
+
+    <!-- Navbar -->
+    <nav class="navbar bg-color-1">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="Trackyn Logo" class="logo-img">
+            </a>
+        </div>
+        
+        <ul class="nav-links">
+            <li class="close-menu-container">
+                <i class="fa-solid fa-xmark close-menu" aria-label="Close menu"></i>
+            </li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="groups.html">Groups</a></li>
+            <li><a href="partner.html">Partner Program</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html" class="active">Contact Us</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <div class="cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="contact-section">
+            <div class="contact-container">
+                
+                <h1 class="contact-title">Contact Information</h1>
+                <p class="contact-subtitle">We’d love to hear from you</p>
+
+                <div class="contact-details">
+                    <p class="contact-detail-item">
+                        <strong>Phone:</strong> +1 (555) 000-0000
+                    </p>
+                    <p class="contact-detail-item">
+                        <strong>Email:</strong> contact@kynkode3
+                    </p>
+                    <p class="contact-detail-item">
+                        <strong>Address:</strong> 123 Security Lane, Digital City, TX 75001
+                    </p>
+                </div>
+
+                <p class="contact-response-time">Response time: Within 24 hours</p>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-color-1">
+        <div class="footer-left">
+            <p class="email-text">kynkode3@gmail.com</p>
+            <div class="footer-bottom-text">
+                <p>Kynkode</p>
+                <p class="copyright">&copy; 2026 Kynkode. All rights reserved.</p>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-logo-container">
+                <img src="images/logo.png" alt="Trackyn Logo" class="footer-logo-img">
+            </div>
+            <div class="social-icons vibrant">
+                <a href="#" class="social-fb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-yt"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-x"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class="social-li"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="social-tt"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Mechanics -->
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const closeMenu = document.querySelector('.close-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        if(menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            });
+        }
+        if(closeMenu) {
+            closeMenu.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto'; 
+            });
+        }
+    </script>
+</body>
+</html>
