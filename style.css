@@ -2622,7 +2622,14 @@ a { text-decoration: none; color: inherit; }
     gap: 1.5rem;
 }
 
-/* Pill Buttons */
+/* Pill Buttons & Button Group */
+.clini-btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 .clini-btn {
     display: inline-block;
     font-family: 'Inter', sans-serif;
