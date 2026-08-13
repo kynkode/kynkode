@@ -143,7 +143,7 @@ a { text-decoration: none; color: inherit; }
     background-color: rgba(248, 246, 242, 0.90) !important; /* Thick opaque white/cream */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    padding: 45px 40px;
+    padding: 60px; /* Increased to even 60px all around for extra padding */
     border-radius: 35px !important; /* Forces the rounded edges */
     border: none !important; /* Removes the unwanted outline */
     max-width: 580px;
@@ -455,7 +455,7 @@ a { text-decoration: none; color: inherit; }
         text-align: left;
         width: 100%;
         max-width: 92%; 
-        padding: 35px 25px;
+        padding: 50px; /* Increased to even 50px all around for tablet */
         border-radius: 30px !important;
     }
 
@@ -492,7 +492,7 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 30px 20px;
+        padding: 40px; /* Increased to even 40px all around for mobile */
         max-width: 98%;
         border-radius: 25px !important;
     }
