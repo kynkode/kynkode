@@ -8,24 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Security Shield Layer overlaying content during backend handshakes */
-        #tknAuthShield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #0d0e12; /* Matches deep app layout themes */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            color: #00ffcc;
-            letter-spacing: 2px;
-        }
-
         /* Sidebar Accordion Smooth Transitions */
         .filter-body {
             max-height: 0;
@@ -44,71 +26,8 @@
             user-select: none;
         }
     </style>
-    <script>
-        // 1. Immediate local session check to prevent rendering flash
-        const currentUser = sessionStorage.getItem('trackynUser');
-        
-        // Deployed Google Apps Script Web App Endpoint URL
-        const TRACKYN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzaee5P6-nJb5Fp_1YlI9HGCPjDEUF9kBWpx_IHvLYd_d3mZgSh05XO0EbpkZVXss83/exec';
-        
-        if (!currentUser) {
-            window.location.replace('pet-owner.html');
-        } else {
-            // 2. Server-side verification loop targeting the updated doPost backend endpoint
-            document.addEventListener("DOMContentLoaded", () => {
-                
-                // Pure local environment testing fallback bypass:
-                if (TRACKYN_BACKEND_URL.includes('https://script.google.com/macros/s/AKfycbzaee5P6-nJb5Fp_1YlI9HGCPjDEUF9kBWpx_IHvLYd_d3mZgSh05XO0EbpkZVXss83/exec')) {
-                    console.warn("Trackyn Development Notice: Running decoupled from backend. Access shield removed.");
-                    const shield = document.getElementById('tknAuthShield');
-                    if (shield) shield.remove();
-                    
-                    // Initialize UI listeners for sandbox testing
-                    initMobileNav();
-                    initSidebarAccordions();
-                    return;
-                }
-
-                // Construct endpoint URL targeting Module E's verification parameter rules
-                const verificationUrl = `${TRACKYN_BACKEND_URL}?action=verify_group_access&Username=${encodeURIComponent(currentUser)}`;
-
-                fetch(verificationUrl, {
-                    method: 'POST',
-                    mode: 'cors'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.success) {
-                        // Access confirmed by Column V (GRANTED): Remove shield cleanly
-                        const shield = document.getElementById('tknAuthShield');
-                        if (shield) shield.remove();
-                        
-                        // Initialize layout UI components safely
-                        initMobileNav();
-                        initSidebarAccordions();
-                    } else {
-                        // Status verification mismatch or access revoked
-                        handleAuthFailure();
-                    }
-                })
-                .catch(error => {
-                    console.error("Security authorization network handshake failed:", error);
-                    handleAuthFailure();
-                });
-            });
-        }
-
-        function handleAuthFailure() {
-            sessionStorage.clear();
-            window.location.replace('pet-owner.html');
-        }
-    </script>
 </head>
 <body id="top">
-
-    <div id="tknAuthShield">
-        <div><i class="fa-solid fa-circle-notch fa-spin"></i> VERIFYING ACCESS...</div>
-    </div>
 
     <nav class="navbar bg-color-1 shop-nav">
         <div class="logo-container">
@@ -517,6 +436,12 @@
     </div>
 
     <script>
+        // Initialize scripts once DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            initMobileNav();
+            initSidebarAccordions();
+        });
+
         // Mobile Navigation Responsive Observers
         function initMobileNav() {
             const menuToggle = document.querySelector('.menu-toggle');
