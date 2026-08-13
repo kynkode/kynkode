@@ -21,7 +21,7 @@ html {
     --accent-blue: #4a90e2;   
     --pricing-box-bg: rgba(200, 200, 200, 0.15); 
     --hero-overlay-color: rgba(0, 0, 0, 0.2); 
-    --hero-content-bg: rgba(248, 248, 248, 0.92); /* Updated to a stronger whitish base */
+    --hero-content-bg: rgba(245, 243, 238, 0.75); /* Thicker milky opaque tint */
     --text-light: #ffffff; 
     --text-grey: #a0a0a0;   
     --font-tech: 'Orbitron', sans-serif;
@@ -141,18 +141,19 @@ a { text-decoration: none; color: inherit; }
     background: var(--hero-overlay-color);
 }
 
-/* Updated Hero Content strictly for the whitish card appearance */
+/* Updated Hero Content strictly for the heavily rounded, opaque glass blur */
 .hero-content {
     background: var(--hero-content-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px); 
+    backdrop-filter: blur(35px); /* Strong opaque blur effect */
+    -webkit-backdrop-filter: blur(35px); 
     padding: 45px 40px;
-    border-radius: 32px; /* Increased border-radius for the highly rounded look */
+    border-radius: 45px; /* Highly rounded edges as requested */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Clearly defines the rounded blur edge */
     max-width: 550px;
     position: relative;
     z-index: 10;
     color: var(--primary-blue);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15); /* Soft depth behind the card */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); 
 }
 
 .subtitle {
@@ -453,6 +454,7 @@ a { text-decoration: none; color: inherit; }
         width: 100%;
         max-width: 90%; 
         padding: 40px 30px;
+        border-radius: 35px; /* Scaled down slightly for mobile */
     }
 
     .hero-buttons {
@@ -487,8 +489,9 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 25px 20px;
+        padding: 30px 20px;
         max-width: 95%;
+        border-radius: 30px;
     }
     
     .hero-title {
