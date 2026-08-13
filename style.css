@@ -4820,3 +4820,79 @@ a { text-decoration: none; color: inherit; }
         height: 50px;
     }
 }
+/* =========================================
+   Contact Page Styles
+   ========================================= */
+.contact-section {
+    background-color: #11166c;
+    color: #ffffff;
+    padding: 90px 20px;
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+}
+
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.contact-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.contact-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 0;
+    margin-bottom: 45px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+}
+
+.contact-detail-item {
+    color: #ffffff;
+}
+
+.contact-detail-item strong {
+    font-weight: 700;
+}
+
+.contact-response-time {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 60px 15px;
+    }
+    
+    .contact-title {
+        font-size: 2.1rem;
+    }
+    
+    .contact-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+}
