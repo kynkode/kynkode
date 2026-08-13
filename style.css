@@ -1,7 +1,7 @@
 /* ==========================================================================
    IMPORT GOOGLE FONTS (Orbitron & Inter)
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap');
 
 /* --- Global Reset & Variables --- */
 * {
@@ -20,8 +20,8 @@ html {
     --secondary-blue: #2B2F84;  
     --accent-blue: #4a90e2;   
     --pricing-box-bg: rgba(200, 200, 200, 0.15); 
-    --hero-overlay-color: rgba(0, 0, 0, 0.2); 
-    --hero-content-bg: rgba(255, 255, 255, 0.85); 
+    --hero-overlay-color: rgba(0, 0, 0, 0.25); 
+    --hero-content-bg: rgba(246, 242, 235, 0.85); 
     --text-light: #ffffff; 
     --text-grey: #a0a0a0;   
     --font-tech: 'Orbitron', sans-serif;
@@ -68,7 +68,6 @@ a { text-decoration: none; color: inherit; }
     z-index: 100;
 }
 
-/* Hard locked logo sizing limits to 100x35 on all screen variations */
 .logo-container,
 .footer-logo-container {
     display: block;
@@ -127,8 +126,8 @@ a { text-decoration: none; color: inherit; }
 /* --- Hero Section --- */
 .hero {
     background: url('images/hero-bg.jpg') no-repeat center center/cover;
-    height: 80vh;
-    min-height: 600px;
+    height: 85vh;
+    min-height: 650px;
     position: relative;
     display: flex;
     align-items: center;
@@ -141,36 +140,48 @@ a { text-decoration: none; color: inherit; }
     background: var(--hero-overlay-color);
 }
 
+/* --- Hero Card Appearance (Matching Image 2) --- */
 .hero-content {
     background: var(--hero-content-bg);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 15px;
-    max-width: 550px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 45px 40px;
+    border-radius: 28px;
+    max-width: 580px;
     position: relative;
     z-index: 10;
     color: var(--primary-blue);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .subtitle {
-    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
     font-weight: 700;
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+    text-transform: uppercase;
 }
 
 .hero-title {
     font-family: var(--font-tech);
-    font-size: 4rem;
-    text-transform: uppercase;
-    margin-bottom: 15px;
+    font-size: 4.8rem;
+    font-weight: 900;
+    color: var(--primary-blue);
+    text-transform: none; /* Keeps mixed-case branding like "Kynkode" / "Trackyn" */
+    margin-bottom: 20px;
+    line-height: 1;
 }
 
 .hero-desc {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 600;
-    margin-bottom: 30px;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 35px;
 }
 
 .hero-buttons {
@@ -184,21 +195,24 @@ a { text-decoration: none; color: inherit; }
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 12px 24px;
-    font-weight: 600;
+    padding: 14px 28px;
+    font-weight: 700;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
 }
 
 .btn-light {
-    background-color: #f4ece6; 
+    background-color: #f1efe7; 
     color: var(--primary-blue);
 }
 
 .btn-light:hover {
-    background-color: #e2d9d1;
+    background-color: #e2ded4;
+    transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -399,8 +413,6 @@ a { text-decoration: none; color: inherit; }
 
 /* --- Responsive Media Queries --- */
 @media (max-width: 968px) {
-    
-    /* Reveal Mobile Action Triggers exclusively under breakpoint viewports */
     .menu-toggle {
         display: block !important;
         font-size: 1.8rem;
@@ -418,7 +430,6 @@ a { text-decoration: none; color: inherit; }
         cursor: pointer;
     }
 
-    /* Morph standard header links setup into full fullscreen cover */
     .nav-links {
         position: fixed;
         top: 0;
@@ -440,20 +451,19 @@ a { text-decoration: none; color: inherit; }
         transform: translateX(0);
     }
 
-    /* Center Hero alignment and limit proportions to fully clear layout edges */
     .hero {
         justify-content: center;
     }
     
     .hero-content {
-        text-align: center;
+        text-align: left;
         width: 100%;
-        max-width: 90%; 
-        padding: 40px 30px;
+        max-width: 92%; 
+        padding: 35px 25px;
     }
 
     .hero-buttons {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .split-section, .split-section.reverse {
@@ -462,7 +472,7 @@ a { text-decoration: none; color: inherit; }
     }
     
     .hero-title {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
     
     .tech-heading {
@@ -479,17 +489,19 @@ a { text-decoration: none; color: inherit; }
     .footer-right {
         align-items: center;
     }
-   /* Align mobile top logo strictly to the left padding */ .logo-img { object-position: left center; }
+
+    .logo-img { object-position: left center; }
 }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 25px 20px;
-        max-width: 95%;
+        padding: 30px 20px;
+        max-width: 98%;
+        border-radius: 20px;
     }
     
     .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.8rem;
     }
 
     .hero-desc {
@@ -518,8 +530,7 @@ a { text-decoration: none; color: inherit; }
         bottom: 20px;
         right: 20px;
     }
-}
-/* =========================================
+}/* =========================================
    BLOG PAGE STYLES 
    ========================================= */
 
