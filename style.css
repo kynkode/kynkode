@@ -143,10 +143,10 @@ a { text-decoration: none; color: inherit; }
     background-color: rgba(248, 246, 242, 0.90) !important; /* Thick opaque white/cream */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    padding: 60px; /* Increased to even 60px all around for extra padding */
+    padding: 80px 75px; /* Increased to make the shape expand noticeably further out */
     border-radius: 35px !important; /* Forces the rounded edges */
     border: none !important; /* Removes the unwanted outline */
-    max-width: 580px;
+    max-width: 700px; /* Increased to allow the background to stretch wider */
     position: relative;
     z-index: 10;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
@@ -455,7 +455,7 @@ a { text-decoration: none; color: inherit; }
         text-align: left;
         width: 100%;
         max-width: 92%; 
-        padding: 50px; /* Increased to even 50px all around for tablet */
+        padding: 65px 60px; /* Increased to maintain expanded look on tablets */
         border-radius: 30px !important;
     }
 
@@ -492,7 +492,7 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 40px; /* Increased to even 40px all around for mobile */
+        padding: 50px 40px; /* Increased slightly for mobile while remaining responsive */
         max-width: 98%;
         border-radius: 25px !important;
     }
