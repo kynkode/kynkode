@@ -138,18 +138,16 @@ a { text-decoration: none; color: inherit; }
     background: var(--hero-overlay-color);
 }
 
-/* --- Fixed Hero Card: Whitish, Opaque Blur, Highly Rounded --- */
+/* --- Fixed Hero Card: Solid Whitish, No Blur, Deep Padding --- */
 .hero-content {
-    background-color: rgba(248, 246, 242, 0.90) !important; /* Thick opaque white/cream */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 100px 95px; /* Increased bounds further outwards */
-    border-radius: 35px !important; /* Forces the rounded edges */
-    border: none !important; /* Removes the unwanted outline */
-    max-width: 800px; /* Increased max-width to allow the padding to stretch */
+    background-color: #F8F6F2 !important; /* Solid warm whitish background */
+    padding: 95px 110px; /* Expansive padding extending well around text */
+    border-radius: 40px !important; /* Forces the rounded edges seen in screenshot */
+    border: none !important; 
+    max-width: 900px; /* Increased max-width to allow the expansive padding to stretch */
     position: relative;
     z-index: 10;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Lifted shadow */
 }
 
 .subtitle {
@@ -455,8 +453,8 @@ a { text-decoration: none; color: inherit; }
         text-align: left;
         width: 100%;
         max-width: 95%; /* Increased max-width for tablet */
-        padding: 85px 80px; /* Increased bounds for tablet */
-        border-radius: 30px !important;
+        padding: 85px 80px; /* Still maintains strong outer margin for tablets */
+        border-radius: 35px !important;
     }
 
     .hero-buttons {
@@ -492,9 +490,9 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 60px 50px; /* Increased bounds for mobile */
-        max-width: 100%; /* Allows it to stretch fully */
-        border-radius: 25px !important;
+        padding: 60px 50px; /* Reduced for smaller phone screens */
+        max-width: 100%; 
+        border-radius: 30px !important;
     }
     
     .hero-title {
