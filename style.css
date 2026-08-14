@@ -16,7 +16,7 @@ html {
 
 :root {
     /* Brand Colors */
-    --primary-blue: #141979;    
+    --primary-blue: #141979;   
     --secondary-blue: #2B2F84;  
     --accent-blue: #4a90e2;   
     --pricing-box-bg: rgba(200, 200, 200, 0.15); 
@@ -143,10 +143,10 @@ a { text-decoration: none; color: inherit; }
     background-color: rgba(248, 246, 242, 0.90) !important; /* Thick opaque white/cream */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    padding: 80px 75px; /* Increased to make the shape expand noticeably further out */
+    padding: 100px 95px; /* Increased bounds further outwards */
     border-radius: 35px !important; /* Forces the rounded edges */
     border: none !important; /* Removes the unwanted outline */
-    max-width: 700px; /* Increased to allow the background to stretch wider */
+    max-width: 800px; /* Increased max-width to allow the padding to stretch */
     position: relative;
     z-index: 10;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
@@ -454,8 +454,8 @@ a { text-decoration: none; color: inherit; }
     .hero-content {
         text-align: left;
         width: 100%;
-        max-width: 92%; 
-        padding: 65px 60px; /* Increased to maintain expanded look on tablets */
+        max-width: 95%; /* Increased max-width for tablet */
+        padding: 85px 80px; /* Increased bounds for tablet */
         border-radius: 30px !important;
     }
 
@@ -492,8 +492,8 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 50px 40px; /* Increased slightly for mobile while remaining responsive */
-        max-width: 98%;
+        padding: 60px 50px; /* Increased bounds for mobile */
+        max-width: 100%; /* Allows it to stretch fully */
         border-radius: 25px !important;
     }
     
