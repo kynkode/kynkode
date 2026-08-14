@@ -18,9 +18,9 @@ html {
     /* Brand Colors */
     --primary-blue: #141979;   
     --secondary-blue: #2B2F84;  
-    --accent-blue: #4a90e2;   
+    --accent-blue: #4a90e2;    
     --pricing-box-bg: rgba(200, 200, 200, 0.15); 
-    --hero-overlay-color: rgba(0, 0, 0, 0.25); 
+    --hero-overlay-color: rgba(0, 0, 0, 0.05); /* Lightened to match image brightness */
     --text-light: #ffffff; 
     --text-grey: #a0a0a0;   
     --font-tech: 'Orbitron', sans-serif;
@@ -130,6 +130,7 @@ a { text-decoration: none; color: inherit; }
     display: flex;
     align-items: center;
     padding: 0 5%;
+    justify-content: flex-start;
 }
 
 .hero-overlay {
@@ -138,49 +139,55 @@ a { text-decoration: none; color: inherit; }
     background: var(--hero-overlay-color);
 }
 
-/* --- Fixed Hero Card: Solid Whitish, No Blur, Deep Padding --- */
+/* --- Fixed Hero Card: Matches Screenshot Styling Exactly --- */
 .hero-content {
-    background-color: #F8F6F2 !important; /* Solid warm whitish background */
-    padding: 140px 150px; /* Highly expansive padding to match the blue line boundaries */
-    border-radius: 40px !important; /* Forces the rounded edges seen in screenshot */
-    border: none !important; 
-    max-width: 1050px; /* Increased max-width to allow the expansive padding to stretch */
+    background-color: rgba(250, 250, 250, 0.65) !important; /* Semi-transparent glassmorphism */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 40px 35px 35px 35px !important; 
+    border-radius: 24px !important; /* Precise rounded edges */
+    border: 1px solid rgba(255, 255, 255, 0.4) !important; 
+    width: 100%;
+    max-width: 420px; /* Constrains width to force the exact line breaks in the text */
     position: relative;
     z-index: 10;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Lifted shadow */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
+    text-align: left;
 }
 
 .subtitle {
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+    margin-bottom: 0px;
     text-transform: uppercase;
     color: var(--primary-blue) !important; 
+    text-align: center; /* Visually centered over the Kynkode word */
 }
 
 .hero-title {
     font-family: var(--font-tech);
     font-size: 4.8rem;
     font-weight: 900;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     line-height: 1;
+    letter-spacing: -1px;
     color: var(--primary-blue) !important; 
 }
 
 .hero-desc {
     font-family: var(--font-body);
-    font-size: 1.05rem;
-    line-height: 1.55;
-    font-weight: 600;
-    margin-bottom: 35px;
+    font-size: 0.85rem;
+    line-height: 1.35;
+    font-weight: 700;
+    margin-bottom: 25px;
     color: var(--primary-blue) !important;
 }
 
 .hero-buttons {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
 
 /* --- Buttons --- */
@@ -199,14 +206,23 @@ a { text-decoration: none; color: inherit; }
     letter-spacing: 0.5px;
 }
 
+/* Overriding global .btn-light specifically for the hero to match exact shapes */
+.hero-buttons .btn {
+    flex: 1;
+    padding: 14px 10px;
+    font-size: 0.8rem;
+    background-color: rgba(245, 245, 245, 0.85) !important;
+    border-radius: 20px;
+}
+
+.hero-buttons .btn:hover {
+    background-color: rgba(255, 255, 255, 1) !important;
+    transform: translateY(-2px);
+}
+
 .btn-light {
     background-color: #f1efe7; 
     color: var(--primary-blue);
-}
-
-.btn-light:hover {
-    background-color: #e2ded4;
-    transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -451,10 +467,9 @@ a { text-decoration: none; color: inherit; }
     
     .hero-content {
         text-align: left;
-        width: 100%;
-        max-width: 95%; 
-        padding: 100px 90px; /* Adjusted to keep expanded look proportionally on tablets */
-        border-radius: 35px !important;
+        max-width: 90%; 
+        padding: 50px 45px !important; 
+        border-radius: 25px !important;
     }
 
     .hero-buttons {
@@ -490,9 +505,9 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 75px 55px; /* Adjusted to keep expanded look proportionally on phones */
+        padding: 40px 30px !important;
         max-width: 100%; 
-        border-radius: 30px !important;
+        border-radius: 20px !important;
     }
     
     .hero-title {
