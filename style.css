@@ -5215,7 +5215,7 @@ a { text-decoration: none; color: inherit; }
     padding-bottom: 40px; 
 }
 
-/* Scoped strictly to programs-hero so it doesn't touch index.html */
+/* Safely scoped so it only affects the programs page hero */
 .programs-hero .hero-content {
     flex: 1;
     background: transparent !important;     
@@ -5225,7 +5225,7 @@ a { text-decoration: none; color: inherit; }
     box-shadow: none !important;           
 }
 
-.mission-label {
+.programs-hero .mission-label {
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
@@ -5236,7 +5236,7 @@ a { text-decoration: none; color: inherit; }
     display: block;
 }
 
-.hero-title {
+.programs-hero .hero-title {
     font-family: 'Orbitron', sans-serif;
     font-size: 4.2rem;
     font-weight: 900;
@@ -5246,7 +5246,7 @@ a { text-decoration: none; color: inherit; }
     color: #ffffff !important; 
 }
 
-.hero-subtitle {
+.programs-hero .hero-subtitle {
     font-family: 'Orbitron', sans-serif;
     font-size: 1.9rem;
     color: rgba(255, 255, 255, 0.85); 
@@ -5254,7 +5254,7 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.3;
 }
 
-.hero-text {
+.programs-hero .hero-text {
     font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
     line-height: 1.6;
@@ -5452,7 +5452,9 @@ a { text-decoration: none; color: inherit; }
         box-sizing: border-box;
     }
 
-    .hero-title, .faq-sidebar h2, .cta-container h2 {
+    .programs-hero .hero-title, 
+    .faq-sidebar h2, 
+    .cta-container h2 {
         font-size: 2.8rem;
     }
 }
