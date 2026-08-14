@@ -10,6 +10,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
+    /* Custom Dark Mode Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569; 
+    }
+
     @keyframes shimmer {
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
@@ -29,33 +46,33 @@
     .animate-wave-4 { animation: wave-bars 0.8s infinite ease-in-out 0.45s; }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 font-sans selection:bg-indigo-500/30">
 
   <div class="max-w-5xl mx-auto space-y-6">
     
     <!-- Settings Section -->
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl w-full">
+    <div class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl w-full transition-all">
       <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Settings & Patient Info</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <input type="text" id="clinicName" placeholder="Clinic / Hospital Name" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 transition" value="General Hospital">
-        <input type="text" id="manualLocation" placeholder="Location (e.g. City, Region)" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 transition">
-        <input type="text" id="doctorName" placeholder="Provider Name" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 transition" value="Dr. John Doe">
-        <input type="email" id="patientEmail" placeholder="Patient Email Address" class="w-full bg-slate-700 text-sm border-none rounded-lg p-3 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 transition">
+        <input type="text" id="clinicName" placeholder="Clinic / Hospital Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all" value="General Hospital">
+        <input type="text" id="manualLocation" placeholder="Location (e.g. City, Region)" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all">
+        <input type="text" id="doctorName" placeholder="Provider Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all" value="Dr. John Doe">
+        <input type="email" id="patientEmail" placeholder="Patient Email Address" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all">
       </div>
     </div>
 
     <!-- Controls & Status -->
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative overflow-hidden">
+    <div class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative overflow-hidden transition-all">
       
       <div id="progressBarContainer" class="absolute top-0 left-0 w-full h-1 bg-slate-700/50 overflow-hidden hidden">
         <div class="h-full w-full animate-shimmer"></div>
       </div>
 
-      <div class="w-full lg:w-auto space-y-2">
+      <div class="w-full lg:w-auto space-y-2 z-10">
         <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-bold text-indigo-400">AI Local Listener</h1>
-          <div id="statusBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-700/80 border border-slate-600 text-slate-300">
-            <span id="statusIcon"><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span></span>
+          <h1 class="text-2xl font-bold text-indigo-400 drop-shadow-sm">AI Local Listener</h1>
+          <div id="statusBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/80 border border-slate-600/80 text-slate-300 shadow-inner">
+            <span id="statusIcon"><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span></span>
             <span id="statusBadgeText" class="font-mono text-[11px] uppercase tracking-wider">Ready</span>
             <div id="audioWave" class="hidden flex items-end gap-0.5 h-3 ml-1">
               <span class="w-0.5 bg-rose-400 animate-wave-1 rounded-full"></span>
@@ -68,43 +85,43 @@
         <p class="text-xs text-slate-400 font-mono" id="statusText">System ready. Waiting for input...</p>
       </div>
 
-      <div class="flex flex-wrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
-        <button id="recordBtn" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-xl transition shadow-lg text-sm flex items-center gap-2">🎙️ Record</button>
-        <button id="stopBtn" disabled class="px-6 py-2 bg-rose-600 hover:bg-rose-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm flex items-center gap-2">⏹️ Stop</button>
-        <button id="generateBtn" disabled class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm flex items-center gap-2">⚙️ Analyze Report</button>
-        <button id="downloadPdfBtn" disabled class="px-6 py-2 bg-blue-600 hover:bg-blue-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm flex items-center gap-2">📄 PDF</button>
-        <button id="emailBtn" disabled class="px-6 py-2 bg-purple-600 hover:bg-purple-500 font-semibold rounded-xl transition shadow-lg opacity-50 cursor-not-allowed text-sm flex items-center gap-2">📧 Email</button>
+      <div class="flex flex-wrap gap-3 w-full lg:w-auto justify-start lg:justify-end z-10">
+        <button id="recordBtn" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-indigo-500/25 text-sm flex items-center gap-2">🎙️ Record</button>
+        <button id="stopBtn" disabled class="px-6 py-2 bg-rose-600 hover:bg-rose-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-rose-500/25 opacity-50 cursor-not-allowed text-sm flex items-center gap-2">⏹️ Stop</button>
+        <button id="generateBtn" disabled class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-emerald-500/25 opacity-50 cursor-not-allowed text-sm flex items-center gap-2">⚙️ Analyze Report</button>
+        <button id="downloadPdfBtn" disabled class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-blue-500/25 opacity-50 cursor-not-allowed text-sm flex items-center gap-2">📄 PDF</button>
+        <button id="emailBtn" disabled class="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg hover:shadow-purple-500/25 opacity-50 cursor-not-allowed text-sm flex items-center gap-2">📧 Email</button>
       </div>
     </div>
 
     <!-- Transcript Box -->
-    <div id="transcriptCard" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
-      <div class="flex justify-between items-center mb-2">
+    <div id="transcriptCard" class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-lg transition-all">
+      <div class="flex justify-between items-center mb-3">
         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Live Transcript</h2>
-        <span class="text-[10px] text-slate-500">Edit manually before generating report</span>
+        <span class="text-[10px] text-slate-500 bg-slate-900/50 px-2 py-1 rounded-md border border-slate-700/50">Edit manually before generating</span>
       </div>
-      <textarea id="transcriptText" class="w-full bg-slate-700 text-sm text-slate-200 rounded-xl p-4 min-h-[120px] focus:ring-2 focus:ring-indigo-500 outline-none resize-y placeholder-slate-500 transition" placeholder="Transcription will appear here..."></textarea>
+      <textarea id="transcriptText" class="w-full bg-slate-900/50 text-sm text-slate-200 rounded-xl p-4 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-indigo-500/80 border border-slate-700/50 resize-y placeholder-slate-600 transition-all leading-relaxed" placeholder="Transcription will appear here..."></textarea>
     </div>
 
     <!-- Output Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="reportUI">
       
       <!-- Categorized Clinical Notes -->
-      <div id="soapCard" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg space-y-4">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 border-b border-slate-700 pb-2">Clinical Analysis (Categorized)</h2>
-        <div class="space-y-3 text-sm text-slate-300">
-          <div class="break-words"><span class="font-bold text-slate-100">1. Signalment & Core(Disease Category):</span> <span id="soap1">-</span></div>
-          <div class="break-words"><span class="font-bold text-slate-100">2 & 3. History:</span> <span id="soap23">-</span></div>
-          <div class="break-words"><span class="font-bold text-slate-100">4. Findings:</span> <span id="soap4">-</span></div>
-          <div class="break-words"><span class="font-bold text-slate-100">5, 6, & 7. Diagnostics:</span> <span id="soap567">-</span></div>
-          <div class="break-words"><span class="font-bold text-slate-100">8 & 9. Plan:</span> <span id="soap89">-</span></div>
-          <div class="break-words"><span class="font-bold text-slate-100">10 & 11. Takeaways/Differentiation:</span> <span id="soap1011">-</span></div>
+      <div id="soapCard" class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-5 transition-all">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 border-b border-slate-700/60 pb-3">Clinical Analysis (Categorized)</h2>
+        <div class="space-y-4 text-sm text-slate-300">
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">1. Signalment & Core(Disease Category):</span> <span id="soap1" class="text-slate-300">-</span></div>
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">2 & 3. History:</span> <span id="soap23" class="text-slate-300">-</span></div>
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">4. Findings:</span> <span id="soap4" class="text-slate-300">-</span></div>
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">5, 6, & 7. Diagnostics:</span> <span id="soap567" class="text-slate-300">-</span></div>
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">8 & 9. Plan:</span> <span id="soap89" class="text-slate-300">-</span></div>
+          <div class="break-words leading-relaxed"><span class="font-semibold text-slate-100">10 & 11. Takeaways/Differentiation:</span> <span id="soap1011" class="text-slate-300">-</span></div>
         </div>
       </div>
 
       <!-- Patient Instructions -->
-      <div id="instructionsCard" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg space-y-4">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-700 pb-2">Patient Instructions</h2>
+      <div id="instructionsCard" class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-5 transition-all">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-700/60 pb-3">Patient Instructions</h2>
         <p id="instructionsText" class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">-</p>
       </div>
     </div>
@@ -123,8 +140,8 @@
       </div>
     </div>
     <div class="mb-6">
-      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2">Clinical SOAP Report</h3>
-      <div class="text-sm space-y-2">
+      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 pb-1">Clinical SOAP Report</h3>
+      <div class="text-sm space-y-3 leading-relaxed">
         <p><strong>1. Signalment & Core(Disease Category):</strong> <span id="pdf1"></span></p>
         <p><strong>2 & 3. History:</strong> <span id="pdf23"></span></p>
         <p><strong>4. Findings:</strong> <span id="pdf4"></span></p>
@@ -134,8 +151,8 @@
       </div>
     </div>
     <div>
-      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2">Discharge Instructions</h3>
-      <p class="text-sm whitespace-pre-wrap" id="pdfInstructions"></p>
+      <h3 class="text-lg font-bold text-slate-800 border-b border-slate-300 mb-2 pb-1">Discharge Instructions</h3>
+      <p class="text-sm leading-relaxed whitespace-pre-wrap" id="pdfInstructions"></p>
     </div>
   </div>
 
@@ -165,7 +182,7 @@
       locationInput: document.getElementById('manualLocation')
     };
 
-    // AI Web Worker with Error-Proof JSON Parsing Fix
+    // AI Web Worker with Error-Proof JSON Parsing & Flat Structure Enforcement Fix
     const workerCode = `
       import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0/dist/transformers.min.js';
       import { CreateMLCEngine } from 'https://esm.run/@mlc-ai/web-llm';
@@ -210,23 +227,26 @@
             
             self.postMessage({ status: 'progress', message: 'Analyzing transcript...' });
             
-            const systemPrompt = "You are a clinical AI. Respond ONLY with a single-line valid JSON object. Do NOT use literal newlines inside values.";
-            const userPrompt = "Analyze this transcript: \\"" + String(payload.transcript) + "\\". Categorize clinical notes into JSON: \\"SOAP\\": {\\"1_Signalment_Core_Disease_Category\\": \\"\\", \\"2_3_History\\": \\"\\", \\"4_Findings\\": \\"\\", \\"5_6_7_Diagnostics\\": \\"\\", \\"8_9_Plan\\": \\"\\", \\"10_11_Takeaways_Differentiation\\": \\"\\"}, \\"ClientInstructions\\": [\\"\\", \\"\\", \\"\\"]";
+            const systemPrompt = "You are a clinical AI. Respond ONLY with valid JSON. Do not include markdown code blocks. Keep all SOAP values as flat strings; DO NOT nest objects inside the keys.";
+            const userPrompt = "Analyze this transcript: \\"" + String(payload.transcript) + "\\". Return EXACTLY this format with string values: {\\"SOAP\\": {\\"1_Signalment_Core_Disease_Category\\": \\"\\", \\"2_3_History\\": \\"\\", \\"4_Findings\\": \\"\\", \\"5_6_7_Diagnostics\\": \\"\\", \\"8_9_Plan\\": \\"\\", \\"10_11_Takeaways_Differentiation\\": \\"\\"}, \\"ClientInstructions\\": [\\"\\", \\"\\", \\"\\"]}";
 
             const reply = await llmEngine.chat.completions.create({
               messages: [
                 { role: "system", content: String(systemPrompt) },
                 { role: "user", content: String(userPrompt) }
               ],
-              max_tokens: 280,
+              max_tokens: 400,
               temperature: 0.0
             });
 
             const contentStr = String(reply.choices[0].message.content || "");
-            const jsonMatch = contentStr.match(/\\{[\\s\\S]*\\}/);
-            let rawJson = jsonMatch ? jsonMatch[0] : contentStr;
+            
+            // Clean up Markdown and enforce string block
+            let cleanStr = contentStr.replace(/^\`\`\`(json)?|\`\`\`$/gi, '').trim();
+            const jsonMatch = cleanStr.match(/\\{[\\s\\S]*\\}/);
+            let rawJson = jsonMatch ? jsonMatch[0] : cleanStr;
 
-            // FIX: Flatten line breaks/control characters to a single line to prevent position 1 parsing crashes
+            // Flatten line breaks/control characters
             const safeJson = rawJson.replace(/[\\n\\r\\t]+/g, ' ');
 
             const parsedData = JSON.parse(safeJson);
@@ -271,19 +291,53 @@
       }
 
       if (status === 'reports_generated') {
+        
+        // UPGRADED Formatter: Aggressively strips rogue JSON characters (brackets, quotes) to prevent the `{"text"}` bug
+        const formatValue = (val) => {
+            if (!val || val === "null" || String(val).trim() === "") return "None";
+            let strVal = typeof val === 'object' ? JSON.stringify(val) : String(val);
+            return strVal.replace(/[{}[\]"]/g, '').trim() || "None";
+        };
+
+        const rawSoap = data.SOAP || {};
+        
+        // Sanitized flat strings only for both UI and DB Sheet
+        const cleanSOAP = {
+            "1_Signalment_Core_Disease_Category": formatValue(rawSoap["1_Signalment_Core_Disease_Category"]),
+            "2_3_History": formatValue(rawSoap["2_3_History"]),
+            "4_Findings": formatValue(rawSoap["4_Findings"]),
+            "5_6_7_Diagnostics": formatValue(rawSoap["5_6_7_Diagnostics"]),
+            "8_9_Plan": formatValue(rawSoap["8_9_Plan"]),
+            "10_11_Takeaways_Differentiation": formatValue(rawSoap["10_11_Takeaways_Differentiation"])
+        };
+
         generatedData = data;
+        generatedData.SOAP = cleanSOAP; // overwrite with sanitised version
         
         // Populate 1-11 SOAP UI
-        const soap = data.SOAP || {};
-        document.getElementById('soap1').innerText = soap["1_Signalment_Core_Disease_Category"] || "N/A";
-        document.getElementById('soap23').innerText = soap["2_3_History"] || "N/A";
-        document.getElementById('soap4').innerText = soap["4_Findings"] || "N/A";
-        document.getElementById('soap567').innerText = soap["5_6_7_Diagnostics"] || "N/A";
-        document.getElementById('soap89').innerText = soap["8_9_Plan"] || "N/A";
-        document.getElementById('soap1011').innerText = soap["10_11_Takeaways_Differentiation"] || "N/A";
+        document.getElementById('soap1').innerText = cleanSOAP["1_Signalment_Core_Disease_Category"];
+        document.getElementById('soap23').innerText = cleanSOAP["2_3_History"];
+        document.getElementById('soap4').innerText = cleanSOAP["4_Findings"];
+        document.getElementById('soap567').innerText = cleanSOAP["5_6_7_Diagnostics"];
+        document.getElementById('soap89').innerText = cleanSOAP["8_9_Plan"];
+        document.getElementById('soap1011').innerText = cleanSOAP["10_11_Takeaways_Differentiation"];
         
-        const inst = Array.isArray(data.ClientInstructions) ? data.ClientInstructions.map(i => `• ${i}`).join('\n') : data.ClientInstructions;
-        document.getElementById('instructionsText').innerText = inst || "N/A";
+        // UPGRADED Instruction Parsing: Clears out empty bullets (e.g., ["", "", ""])
+        let instList = [];
+        if (Array.isArray(data.ClientInstructions)) {
+            instList = data.ClientInstructions;
+        } else if (data.ClientInstructions) {
+            instList = [data.ClientInstructions];
+        }
+
+        const validInstructions = instList.map(i => formatValue(i)).filter(i => i && i !== "None");
+        
+        const finalInstructionsStr = validInstructions.length > 0 
+            ? validInstructions.map(i => `• ${i}`).join('\n\n') 
+            : "No specific instructions provided.";
+
+        document.getElementById('instructionsText').innerText = finalInstructionsStr;
+        generatedData.ClientInstructions = validInstructions; // Save cleaned array for sync/pdf
 
         // Enable Action Buttons
         dom.pdfBtn.disabled = false;
@@ -294,7 +348,7 @@
         
         // Sync to backend
         dom.statusText.innerText = "Analysis complete! Saving to conversation log...";
-        syncToDatabase(data, "save");
+        syncToDatabase(generatedData, "save");
       }
     };
 
@@ -366,8 +420,10 @@
       document.getElementById('pdf89').innerText = soap["8_9_Plan"] || "";
       document.getElementById('pdf1011').innerText = soap["10_11_Takeaways_Differentiation"] || "";
       
-      const inst = generatedData && Array.isArray(generatedData.ClientInstructions) ? generatedData.ClientInstructions.map(i => `• ${i}`).join('\n') : (generatedData ? generatedData.ClientInstructions : "");
-      document.getElementById('pdfInstructions').innerText = inst || "";
+      const inst = generatedData && Array.isArray(generatedData.ClientInstructions) && generatedData.ClientInstructions.length > 0 
+          ? generatedData.ClientInstructions.map(i => `• ${i}`).join('\n\n') 
+          : "No specific instructions provided.";
+      document.getElementById('pdfInstructions').innerText = inst;
     }
 
     // --- Backend Sync Logic ---
