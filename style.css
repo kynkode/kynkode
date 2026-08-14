@@ -5204,10 +5204,11 @@ a { text-decoration: none; color: inherit; }
 
 .hero-content {
     flex: 1;
-    background: transparent; /* Forces removal of any white background box */
-    padding: 0;              /* Removes padding from the box */
-    border-radius: 0;        /* Removes rounded corners */
-    box-shadow: none;        /* Removes any shadow */
+    background: transparent !important;      /* Forces removal of any white background box */
+    background-color: transparent !important;
+    padding: 0 !important;                   /* Removes padding from the box */
+    border-radius: 0 !important;             /* Removes rounded corners */
+    box-shadow: none !important;             /* Removes any shadow */
 }
 
 .mission-label {
@@ -5228,7 +5229,7 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.1;
     margin: 0 0 25px 0;
     text-transform: capitalize;
-    color: #ffffff; /* Forces text to pure white against the navy background */
+    color: #ffffff !important; /* Forces text to pure white, overriding global styles */
 }
 
 .hero-subtitle {
