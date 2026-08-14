@@ -141,10 +141,10 @@ a { text-decoration: none; color: inherit; }
 /* --- Fixed Hero Card: Solid Whitish, No Blur, Deep Padding --- */
 .hero-content {
     background-color: #F8F6F2 !important; /* Solid warm whitish background */
-    padding: 95px 110px; /* Expansive padding extending well around text */
+    padding: 140px 150px; /* Highly expansive padding to match the blue line boundaries */
     border-radius: 40px !important; /* Forces the rounded edges seen in screenshot */
     border: none !important; 
-    max-width: 900px; /* Increased max-width to allow the expansive padding to stretch */
+    max-width: 1050px; /* Increased max-width to allow the expansive padding to stretch */
     position: relative;
     z-index: 10;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); /* Lifted shadow */
@@ -452,8 +452,8 @@ a { text-decoration: none; color: inherit; }
     .hero-content {
         text-align: left;
         width: 100%;
-        max-width: 95%; /* Increased max-width for tablet */
-        padding: 85px 80px; /* Still maintains strong outer margin for tablets */
+        max-width: 95%; 
+        padding: 100px 90px; /* Adjusted to keep expanded look proportionally on tablets */
         border-radius: 35px !important;
     }
 
@@ -490,7 +490,7 @@ a { text-decoration: none; color: inherit; }
 
 @media (max-width: 480px) {
     .hero-content {
-        padding: 60px 50px; /* Reduced for smaller phone screens */
+        padding: 75px 55px; /* Adjusted to keep expanded look proportionally on phones */
         max-width: 100%; 
         border-radius: 30px !important;
     }
