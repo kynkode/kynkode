@@ -3,29 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consultation AI Assistant</title>
+  <title>Consultation AI Assistant (Cloud Powered)</title>
   <link rel="icon" href="data:,">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- HTML to PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* Custom Dark Mode Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a; 
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155; 
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569; 
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
     @keyframes shimmer {
       0% { background-position: -200% 0; }
@@ -54,23 +41,22 @@
     <div class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl w-full transition-all">
       <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Settings & Patient Info</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <input type="text" id="clinicName" placeholder="Clinic / Hospital Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all" value="General Hospital">
-        <input type="text" id="manualLocation" placeholder="Location (e.g. City, Region)" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all">
-        <input type="text" id="doctorName" placeholder="Provider Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all" value="Dr. John Doe">
-        <input type="email" id="patientEmail" placeholder="Patient Email Address" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80 transition-all">
+        <input type="text" id="clinicName" placeholder="Clinic / Hospital Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80" value="General Hospital">
+        <input type="text" id="manualLocation" placeholder="Location (e.g. City, Region)" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80">
+        <input type="text" id="doctorName" placeholder="Provider Name" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80" value="Dr. John Doe">
+        <input type="email" id="patientEmail" placeholder="Patient Email Address" class="w-full bg-slate-900/50 text-sm border border-slate-700/50 rounded-lg p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/80 focus:border-indigo-500/80">
       </div>
     </div>
 
     <!-- Controls & Status -->
     <div class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative overflow-hidden transition-all">
-      
       <div id="progressBarContainer" class="absolute top-0 left-0 w-full h-1 bg-slate-700/50 overflow-hidden hidden">
         <div class="h-full w-full animate-shimmer"></div>
       </div>
 
       <div class="w-full lg:w-auto space-y-2 z-10">
         <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-bold text-indigo-400 drop-shadow-sm">AI Local Listener</h1>
+          <h1 class="text-2xl font-bold text-indigo-400 drop-shadow-sm">AI Cloud Listener</h1>
           <div id="statusBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/80 border border-slate-600/80 text-slate-300 shadow-inner">
             <span id="statusIcon"><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span></span>
             <span id="statusBadgeText" class="font-mono text-[11px] uppercase tracking-wider">Ready</span>
@@ -105,8 +91,6 @@
 
     <!-- Output Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="reportUI">
-      
-      <!-- Categorized Clinical Notes -->
       <div id="soapCard" class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-5 transition-all">
         <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 border-b border-slate-700/60 pb-3">Clinical Analysis (Categorized)</h2>
         <div class="space-y-4 text-sm text-slate-300">
@@ -119,7 +103,6 @@
         </div>
       </div>
 
-      <!-- Patient Instructions -->
       <div id="instructionsCard" class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-5 transition-all">
         <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-700/60 pb-3">Patient Instructions</h2>
         <p id="instructionsText" class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">-</p>
@@ -156,21 +139,18 @@
     </div>
   </div>
 
-  <script type="module">
+  <script>
     // ==========================================
-    // ⚠️ GOOGLE WEB APP URL
+    // ⚠️ REPLACE THIS WITH YOUR NEW WEB APP URL
     // ==========================================
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyeJKQP5RaeTFpJSLRomA1uFQobyOQ_NV3NYlCaaWdBpA2AEXp9atibA7eYCSG26KxtvQ/exec";
-    
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyhVV9-bnE7Ul-H6Eu_hib_OM1ezH1eY3D4t65_akQQHpPbZwRBLkbE7pQiiI1UwfCbig/exec";
+
     let mediaRecorder = null;
     let audioChunks = [];
     let generatedData = null;
 
     const dom = {
       statusText: document.getElementById('statusText'),
-      badge: document.getElementById('statusBadge'),
-      badgeText: document.getElementById('statusBadgeText'),
-      icon: document.getElementById('statusIcon'),
       wave: document.getElementById('audioWave'),
       progress: document.getElementById('progressBarContainer'),
       transcript: document.getElementById('transcriptText'),
@@ -182,175 +162,10 @@
       locationInput: document.getElementById('manualLocation')
     };
 
-    // AI Web Worker with Error-Proof JSON Parsing & Flat Structure Enforcement Fix
-    const workerCode = `
-      import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.0/dist/transformers.min.js';
-      import { CreateMLCEngine } from 'https://esm.run/@mlc-ai/web-llm';
-
-      env.allowLocalModels = false;
-      let transcriber = null;
-      let llmEngine = null;
-
-      self.onmessage = async (e) => {
-        const { type, payload } = e.data;
-        try {
-          // 1. Load Whisper ASR
-          if (type === 'LOAD_WHISPER') {
-            self.postMessage({ status: 'progress', message: 'Loading Whisper Speech Model...' });
-            transcriber = await pipeline('automatic-speech-recognition', 'onnx-community/whisper-tiny.en', {
-              device: 'wasm',
-              dtype: { encoder_model: 'q8', decoder_model_merged: 'q8' }
-            });
-            self.postMessage({ status: 'ready_whisper' });
-          }
-          
-          // 2. Transcribe Audio
-          if (type === 'TRANSCRIBE') {
-            self.postMessage({ status: 'progress', message: 'Transcribing audio...' });
-            const output = await transcriber(payload.audioData, { chunk_length_s: 30, stride_length_s: 5 });
-            
-            let rawText = String(output?.text || output || "");
-            let cleanText = rawText.replace(/\\[.*?\\]|\\(.*?\\)/g, ' ').replace(/\\s+/g, ' ').trim();
-            
-            self.postMessage({ status: 'transcribed', text: cleanText });
-          }
-          
-          // 3. Ultra-Fast LLM Analysis
-          if (type === 'PROCESS_EDITED_TEXT') {
-            self.postMessage({ status: 'progress', message: 'Loading GPU Engine...' });
-            
-            if (!llmEngine) {
-                llmEngine = await CreateMLCEngine("Llama-3.2-1B-Instruct-q4f16_1-MLC", {
-                  initProgressCallback: (info) => self.postMessage({ status: 'progress', message: String(info.text || 'Preparing GPU model...') })
-                });
-            }
-            
-            self.postMessage({ status: 'progress', message: 'Analyzing transcript...' });
-            
-            const systemPrompt = "You are a clinical AI. Respond ONLY with valid JSON. Do not include markdown code blocks. Keep all SOAP values as flat strings; DO NOT nest objects inside the keys.";
-            const userPrompt = "Analyze this transcript: \\"" + String(payload.transcript) + "\\". Return EXACTLY this format with string values: {\\"SOAP\\": {\\"1_Signalment_Core_Disease_Category\\": \\"\\", \\"2_3_History\\": \\"\\", \\"4_Findings\\": \\"\\", \\"5_6_7_Diagnostics\\": \\"\\", \\"8_9_Plan\\": \\"\\", \\"10_11_Takeaways_Differentiation\\": \\"\\"}, \\"ClientInstructions\\": [\\"\\", \\"\\", \\"\\"]}";
-
-            const reply = await llmEngine.chat.completions.create({
-              messages: [
-                { role: "system", content: String(systemPrompt) },
-                { role: "user", content: String(userPrompt) }
-              ],
-              max_tokens: 400,
-              temperature: 0.0
-            });
-
-            const contentStr = String(reply.choices[0].message.content || "");
-            
-            // Clean up Markdown and enforce string block
-            let cleanStr = contentStr.replace(/^\`\`\`(json)?|\`\`\`$/gi, '').trim();
-            const jsonMatch = cleanStr.match(/\\{[\\s\\S]*\\}/);
-            let rawJson = jsonMatch ? jsonMatch[0] : cleanStr;
-
-            // Flatten line breaks/control characters
-            const safeJson = rawJson.replace(/[\\n\\r\\t]+/g, ' ');
-
-            const parsedData = JSON.parse(safeJson);
-            self.postMessage({ status: 'reports_generated', data: parsedData });
-          }
-        } catch (err) {
-          self.postMessage({ status: 'error', error: String(err.message || err) });
-        }
-      };
-    `;
-
-    const blob = new Blob([workerCode], { type: 'application/javascript' });
-    const worker = new Worker(URL.createObjectURL(blob), { type: 'module' });
-
-    worker.onmessage = async (e) => {
-      const { status, message, text, data, error } = e.data;
-
-      if (error) {
-        dom.statusText.innerText = `Error: ${error}`;
-        dom.progress.classList.add('hidden');
-        return;
-      }
-
-      if (status === 'progress') {
-        dom.statusText.innerText = message;
-        dom.progress.classList.remove('hidden');
-      }
-
-      if (status === 'ready_whisper') dom.statusText.innerText = "Recording conversation...";
-
-      if (status === 'transcribed') {
-        dom.transcript.value = text;
-        dom.progress.classList.add('hidden');
-        dom.genBtn.disabled = false;
-        dom.genBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-
-        if (!text) {
-           dom.statusText.innerText = "No speech detected. Please try again or type manually.";
-        } else {
-           dom.statusText.innerText = "Transcription complete. Edit text if needed.";
-        }
-      }
-
-      if (status === 'reports_generated') {
-        
-        // UPGRADED Formatter: Aggressively strips rogue JSON characters (brackets, quotes) to prevent the `{"text"}` bug
-        const formatValue = (val) => {
-            if (!val || val === "null" || String(val).trim() === "") return "None";
-            let strVal = typeof val === 'object' ? JSON.stringify(val) : String(val);
-            return strVal.replace(/[{}[\]"]/g, '').trim() || "None";
-        };
-
-        const rawSoap = data.SOAP || {};
-        
-        // Sanitized flat strings only for both UI and DB Sheet
-        const cleanSOAP = {
-            "1_Signalment_Core_Disease_Category": formatValue(rawSoap["1_Signalment_Core_Disease_Category"]),
-            "2_3_History": formatValue(rawSoap["2_3_History"]),
-            "4_Findings": formatValue(rawSoap["4_Findings"]),
-            "5_6_7_Diagnostics": formatValue(rawSoap["5_6_7_Diagnostics"]),
-            "8_9_Plan": formatValue(rawSoap["8_9_Plan"]),
-            "10_11_Takeaways_Differentiation": formatValue(rawSoap["10_11_Takeaways_Differentiation"])
-        };
-
-        generatedData = data;
-        generatedData.SOAP = cleanSOAP; // overwrite with sanitised version
-        
-        // Populate 1-11 SOAP UI
-        document.getElementById('soap1').innerText = cleanSOAP["1_Signalment_Core_Disease_Category"];
-        document.getElementById('soap23').innerText = cleanSOAP["2_3_History"];
-        document.getElementById('soap4').innerText = cleanSOAP["4_Findings"];
-        document.getElementById('soap567').innerText = cleanSOAP["5_6_7_Diagnostics"];
-        document.getElementById('soap89').innerText = cleanSOAP["8_9_Plan"];
-        document.getElementById('soap1011').innerText = cleanSOAP["10_11_Takeaways_Differentiation"];
-        
-        // UPGRADED Instruction Parsing: Clears out empty bullets (e.g., ["", "", ""])
-        let instList = [];
-        if (Array.isArray(data.ClientInstructions)) {
-            instList = data.ClientInstructions;
-        } else if (data.ClientInstructions) {
-            instList = [data.ClientInstructions];
-        }
-
-        const validInstructions = instList.map(i => formatValue(i)).filter(i => i && i !== "None");
-        
-        const finalInstructionsStr = validInstructions.length > 0 
-            ? validInstructions.map(i => `• ${i}`).join('\n\n') 
-            : "No specific instructions provided.";
-
-        document.getElementById('instructionsText').innerText = finalInstructionsStr;
-        generatedData.ClientInstructions = validInstructions; // Save cleaned array for sync/pdf
-
-        // Enable Action Buttons
-        dom.pdfBtn.disabled = false;
-        dom.pdfBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        dom.emailBtn.disabled = false;
-        dom.emailBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        dom.progress.classList.add('hidden');
-        
-        // Sync to backend
-        dom.statusText.innerText = "Analysis complete! Saving to conversation log...";
-        syncToDatabase(generatedData, "save");
-      }
-    };
+    function setProgress(message, show) {
+      dom.statusText.innerText = message;
+      show ? dom.progress.classList.remove('hidden') : dom.progress.classList.add('hidden');
+    }
 
     // --- Audio Logic ---
     dom.recordBtn.onclick = async () => {
@@ -358,60 +173,127 @@
         audioChunks = [];
         dom.transcript.value = "";
         dom.genBtn.disabled = true;
-        
+
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        
+
         mediaRecorder.onstop = async () => {
-          dom.statusText.innerText = "Processing audio...";
-          
-          const audioBlob = new Blob(audioChunks); 
-          const arrayBuffer = await audioBlob.arrayBuffer();
-          
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-          const decoded = await audioCtx.decodeAudioData(arrayBuffer);
-          const rawAudio = decoded.getChannelData(0);
-          
-          worker.postMessage({ type: 'TRANSCRIBE', payload: { audioData: rawAudio } }, [rawAudio.buffer]);
-          stream.getTracks().forEach(t => t.stop());
-          audioCtx.close();
+          setProgress("Uploading audio to cloud for transcription...", true);
+
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+
+          reader.readAsDataURL(audioBlob);
+          reader.onloadend = async () => {
+            const base64Audio = reader.result.split(',')[1];
+            stream.getTracks().forEach(t => t.stop());
+
+            try {
+              const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'transcribe', audioBase64: base64Audio }),
+              });
+              const json = await res.json();
+
+              if (json.error) {
+                const errorMsg = typeof json.error === 'object' ? (json.error.message || JSON.stringify(json.error)) : json.error;
+                setProgress(`API Error: ${errorMsg}`, false);
+                dom.recordBtn.disabled = false;
+                return;
+              }
+
+              if (json.text) {
+                dom.transcript.value = json.text;
+                setProgress("Transcription complete. Edit text if needed.", false);
+                dom.genBtn.disabled = false;
+                dom.genBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                dom.recordBtn.disabled = false;
+              } else {
+                setProgress("Transcription failed. Please try again.", false);
+                dom.recordBtn.disabled = false;
+              }
+            } catch (err) {
+              setProgress(`Server Error: ${err.message}`, false);
+              dom.recordBtn.disabled = false;
+            }
+          };
         };
 
-        worker.postMessage({ type: 'LOAD_WHISPER' });
         mediaRecorder.start();
-        
+        setProgress("Recording conversation...", false);
         dom.wave.classList.remove('hidden');
         dom.recordBtn.disabled = true;
         dom.stopBtn.disabled = false;
         dom.stopBtn.classList.remove('opacity-50', 'cursor-not-allowed');
       } catch (err) {
-        dom.statusText.innerText = `Mic Error: ${err.message}`;
+        setProgress(`Mic Error: ${err.message}`, false);
       }
     };
 
     dom.stopBtn.onclick = () => {
       if (mediaRecorder) mediaRecorder.stop();
       dom.wave.classList.add('hidden');
-      dom.recordBtn.disabled = false;
       dom.stopBtn.disabled = true;
       dom.stopBtn.classList.add('opacity-50', 'cursor-not-allowed');
     };
 
-    dom.genBtn.onclick = () => {
+    // --- LLM Analysis via Backend ---
+    dom.genBtn.onclick = async () => {
       const text = dom.transcript.value.trim();
       if (!text) return alert("Transcript is empty!");
+
       dom.genBtn.disabled = true;
-      worker.postMessage({ type: 'PROCESS_EDITED_TEXT', payload: { transcript: text } });
+      setProgress("Analyzing transcript on the cloud...", true);
+
+      try {
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'analyze', transcript: text }),
+        });
+        const data = await res.json();
+
+        if (data.error) {
+           const errorMsg = typeof data.error === 'object' ? (data.error.message || JSON.stringify(data.error)) : data.error;
+           throw new Error(errorMsg);
+        }
+
+        generatedData = data.result;
+
+        // Populate UI
+        const soap = generatedData.SOAP || {};
+        document.getElementById('soap1').innerText = soap["1_Signalment_Core_Disease_Category"] || "None";
+        document.getElementById('soap23').innerText = soap["2_3_History"] || "None";
+        document.getElementById('soap4').innerText = soap["4_Findings"] || "None";
+        document.getElementById('soap567').innerText = soap["5_6_7_Diagnostics"] || "None";
+        document.getElementById('soap89').innerText = soap["8_9_Plan"] || "None";
+        document.getElementById('soap1011').innerText = soap["10_11_Takeaways_Differentiation"] || "None";
+
+        let instList = Array.isArray(generatedData.ClientInstructions) ? generatedData.ClientInstructions : [generatedData.ClientInstructions];
+        document.getElementById('instructionsText').innerText = instList.length > 0 ? instList.map(i => `• ${i}`).join('\n\n') : "No specific instructions.";
+
+        dom.pdfBtn.disabled = false;
+        dom.pdfBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        dom.emailBtn.disabled = false;
+        dom.emailBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+        setProgress("Analysis complete! Saving to database...", false);
+        syncToDatabase(generatedData, "save");
+        dom.genBtn.disabled = false;
+
+      } catch (err) {
+        setProgress(`Generation Error: ${err.message}`, false);
+        dom.genBtn.disabled = false;
+      }
     };
 
-    // Populate PDF elements helper function
+    // --- PDF Template population ---
     function populatePdfTemplate() {
       document.getElementById('pdfClinicName').innerText = document.getElementById('clinicName').value || "Unknown Clinic";
       document.getElementById('pdfDoctorName').innerText = document.getElementById('doctorName').value || "Unknown Doctor";
       document.getElementById('pdfLocation').innerText = dom.locationInput.value || "Not Specified";
       document.getElementById('pdfDate').innerText = new Date().toLocaleDateString();
-      
+
       const soap = generatedData ? (generatedData.SOAP || {}) : {};
       document.getElementById('pdf1').innerText = soap["1_Signalment_Core_Disease_Category"] || "";
       document.getElementById('pdf23').innerText = soap["2_3_History"] || "";
@@ -419,8 +301,8 @@
       document.getElementById('pdf567').innerText = soap["5_6_7_Diagnostics"] || "";
       document.getElementById('pdf89').innerText = soap["8_9_Plan"] || "";
       document.getElementById('pdf1011').innerText = soap["10_11_Takeaways_Differentiation"] || "";
-      
-      const inst = generatedData && Array.isArray(generatedData.ClientInstructions) && generatedData.ClientInstructions.length > 0 
+
+      const inst = generatedData && Array.isArray(generatedData.ClientInstructions) 
           ? generatedData.ClientInstructions.map(i => `• ${i}`).join('\n\n') 
           : "No specific instructions provided.";
       document.getElementById('pdfInstructions').innerText = inst;
@@ -443,34 +325,26 @@
 
         const res = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload),
-          redirect: 'follow'
+          body: JSON.stringify(payload)
         });
-        
-        if (res.ok) dom.statusText.innerText = "Saved to conversation log!";
+
+        if (res.ok) setProgress(actionType === "email" ? "Email Sent!" : "Saved to conversation log!", false);
       } catch (err) {
-        dom.statusText.innerText = `Sync status: ${err.message}`;
+        setProgress(`Sync status: ${err.message}`, false);
       }
     }
 
-    // --- Email with PDF Attachment ---
+    // --- Email & PDF Actions ---
     dom.emailBtn.onclick = async () => {
       const email = document.getElementById('patientEmail').value;
       if (!email) return alert("Enter patient email first!");
-      
-      dom.emailBtn.innerText = "Attaching PDF & Sending...";
+
+      dom.emailBtn.innerText = "Sending...";
       dom.emailBtn.disabled = true;
 
       try {
         populatePdfTemplate();
-        
-        // Render PDF as Base64 String
-        const pdfBase64 = await html2pdf()
-          .set({ margin: 0.5, filename: 'Consultation_Report.pdf' })
-          .from(document.getElementById('pdfTemplate'))
-          .outputPdf('datauristring');
-
+        const pdfBase64 = await html2pdf().set({ margin: 0.5, filename: 'Consultation_Report.pdf' }).from(document.getElementById('pdfTemplate')).outputPdf('datauristring');
         await syncToDatabase(generatedData, "email", pdfBase64);
         dom.emailBtn.innerText = "📧 Email Sent!";
       } catch (err) {
@@ -481,7 +355,6 @@
       }
     };
 
-    // --- Direct PDF Download ---
     dom.pdfBtn.onclick = () => {
       if (!generatedData) return;
       populatePdfTemplate();
